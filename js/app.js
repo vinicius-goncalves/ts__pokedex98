@@ -1,10 +1,12 @@
 const pokemons = document.querySelector('[data-js="pokemons"]')
 const optionsCheckbox = document.querySelectorAll('[data-input="checkbox"]')
 
+const pokemonsTypes = []
+
 const pokemonsResolved = () => {
 
     return new Promise((resolve, _) => {
-        const pokemonsFulFilled = Array(20).fill('').map(async (item, index) => {
+        const pokemonsFulFilled = Array(20).fill('').map(async (_, index) => {
             const pokemons = await fetch(`https://pokeapi.co/api/v2/pokemon/${(index + 1)}`)
             const response = await pokemons.json()
             return response
@@ -13,14 +15,17 @@ const pokemonsResolved = () => {
     })
 }
 
-
 const loadPokemons = async () => {
     const pokemonsSettled = await pokemonsResolved().then(data => Promise.allSettled(data))
     
-    const pokemonsDiv = pokemonsSettled.map((pokemon, index) => {
+    const pokemonsDiv = pokemonsSettled.map(pokemon => {
         const { ['value']: pokemonValue } = pokemon
         const { name } = pokemonValue
-        
+
+        if(!pokemonsTypes.includes(pokemonValue.types[0].type.name)) {
+            pokemonsTypes.push(pokemonValue.types[0].type.name)
+        }
+
         const divPokemonWrapper = document.createElement('div')
         divPokemonWrapper.setAttribute('data-js', 'pokemon-wrapper')
         divPokemonWrapper.setAttribute('data-type', `${pokemonValue.types[0].type.name}`)
@@ -58,12 +63,11 @@ const loadPokemons = async () => {
         pokemonImage.setAttribute('src', pokemonValue.sprites.front_default)
         pokemonImageWrapper.appendChild(pokemonImage)
 
-
         const pokemonBottom = document.createElement('div')
         pokemonBottom.setAttribute('data-js', 'pokemon-bottom')
 
         const spanPkemonID = document.createElement('span')
-        spanPkemonID.textContent = 'ID'
+        spanPkemonID.textContent = pokemonValue.id
 
         const spanPokemonType = document.createElement('span')
         spanPokemonType.textContent = pokemonValue.types[0].type.name
@@ -76,9 +80,34 @@ const loadPokemons = async () => {
     })
 
     pokemonsDiv.forEach(pokemonDiv => pokemons.append(pokemonDiv))
+
+    pokemonsTypes.forEach(pokemonType => {
+        const options = document.querySelector('[data-js="options"]')
+        
+        const li = document.createElement('li')
+
+        const label = document.createElement('span')
+        label.setAttribute('data-option', pokemonType)
+        li.append(label)
+
+        const input = document.createElement('input')
+        input.setAttribute('type', 'checkbox')
+        input.setAttribute('data-option', pokemonType)
+        input.setAttribute('data-input', 'checkbox')
+        label.append(input)
+
+        const a = document.createElement('a')
+        a.textContent = pokemonType.replace(pokemonType.charAt(0), pokemonType.charAt(0).toUpperCase())
+        label.append(a)
+
+        options.append(li)
+
+    })
 }
 
+
 loadPokemons()
+
 
 optionsCheckbox.forEach(checkbox => {
     checkbox.addEventListener('click', event => {
