@@ -49,9 +49,18 @@ const loadPokemons = async () => {
         divPokemonLore.setAttribute('data-js', 'pokemon-lore')
         divPokemonWrapper.appendChild(divPokemonLore)
 
+        const pokemonImageWrapper = document.createElement('div')
+        pokemonImageWrapper.setAttribute('data-js', 'pokemon-image-wrapper')
+        divPokemonWrapper.appendChild(pokemonImageWrapper)
+
+        const pokemonImageBackground = document.createElement('span')
+        pokemonImageWrapper.append(pokemonImageBackground)
+
         const pokemonImage = document.createElement('img')
         pokemonImage.setAttribute('data-js', 'pokemon-image')
-        divPokemonLore.appendChild(pokemonImage)
+        pokemonImage.setAttribute('src', pokemonValue.sprites.front_default)
+        pokemonImageWrapper.appendChild(pokemonImage)
+
 
         const pokemonBottom = document.createElement('div')
         pokemonBottom.setAttribute('data-js', 'pokemon-bottom')
@@ -73,4 +82,3 @@ const loadPokemons = async () => {
 }
 
 loadPokemons()
-

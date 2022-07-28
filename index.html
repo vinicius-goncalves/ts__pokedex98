@@ -10,7 +10,7 @@
 <body>
 
     <header>
-        <nav>
+        <nav data-js="navbar">
             <fieldset>
                 <legend>Options</legend>
                 <ul data-js="options">
@@ -41,7 +41,10 @@
                 </div>
             </div>
             <div data-js="pokemon-lore">
-                <img data-js="pokemon-image">
+                <div data-js="pokemon-image-wrapper">
+                    <span></span>
+                    <img data-js="pokemon-image" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/2.png">
+                </div>
             </div>
             <div data-js="pokemon-bottom">
                 <span>Lorem ipsum dolor sit.</span>

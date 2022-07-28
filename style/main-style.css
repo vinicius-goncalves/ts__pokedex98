@@ -50,7 +50,6 @@ header {
     align-items: center;
     margin: 30px;
     position: relative;
-
 }
 
 [data-js="pokemon-content"] {
@@ -86,16 +85,23 @@ header {
     width: 100%;
 }
 
-[data-js="pokemon-lore"] {
+[data-js="pokemon-image-wrapper"] {
     position: relative;
 }
 
-[data-js="pokemon-lore"] img {
+[data-js="pokemon-image-wrapper"] img {
     position: absolute;
     transform: translate(-50%, 6%);
     width: 250px;
     height: 200px;
-    background-color: red;
+}
+
+[data-js="pokemon-image-wrapper"] span {
+    position: absolute;
+    width: 288px;
+    height: 195px;
+    background-color: var(--color3);
+    transform: translate(-50%, 6%);
 }
 
 
@@ -153,5 +159,15 @@ header {
 
     [data-js="title"] span {
         margin: 10px;
+    }
+
+    [data-js="pokemon-image-wrapper"] img {
+        width: 128px;
+        height: 128px;
+    }
+
+    [data-js="pokemon-image-wrapper"] span {
+        width: 104px;
+        height: 141px;
     }
 }
