@@ -1,4 +1,5 @@
 const pokemons = document.querySelector('[data-js="pokemons"]')
+const optionsCheckbox = document.querySelectorAll('[data-input="checkbox"]')
 
 const pokemonsResolved = () => {
 
@@ -19,14 +20,10 @@ const loadPokemons = async () => {
     const pokemonsDiv = pokemonsSettled.map((pokemon, index) => {
         const { ['value']: pokemonValue } = pokemon
         const { name } = pokemonValue
-
-        const pokemonType = pokemonValue.types.reduce((acc, item) => {
-            acc.push(`${item.type.name}`)
-            return acc
-        }, []).join(" / ")
         
         const divPokemonWrapper = document.createElement('div')
         divPokemonWrapper.setAttribute('data-js', 'pokemon-wrapper')
+        divPokemonWrapper.setAttribute('data-type', `${pokemonValue.types[0].type.name}`)
 
         const divPokemonContent = document.createElement('div')
         divPokemonContent.setAttribute('data-js', 'pokemon-content')
@@ -69,7 +66,7 @@ const loadPokemons = async () => {
         spanPkemonID.textContent = 'ID'
 
         const spanPokemonType = document.createElement('span')
-        spanPokemonType.textContent = pokemonType
+        spanPokemonType.textContent = pokemonValue.types[0].type.name
 
         pokemonBottom.append(spanPkemonID, spanPokemonType)
 
@@ -82,3 +79,54 @@ const loadPokemons = async () => {
 }
 
 loadPokemons()
+
+optionsCheckbox.forEach(checkbox => {
+    checkbox.addEventListener('click', event => {
+
+        const { checked } = event.target
+
+        switch(checked) {
+            case true:
+
+                const div = document.createElement('div')
+                div.setAttribute('data-wrapper-type', event.target.dataset.option)
+                document.querySelector('[data-js="pokemons-filtered"]').append(div)
+
+                Array.prototype.forEach.call([...pokemons.children], (pokemon) => {
+                    if(pokemon.dataset.type === undefined) {
+                        return
+                    }
+
+                    if(pokemon.dataset.type.includes(`${event.target.dataset.option}`)) {
+                        pokemon.removeAttribute('style')
+                        div.append(pokemon)
+                    }else {
+                        pokemon.style.display = 'none'
+                    }
+                })
+
+                break
+            case false:
+                const children = [...document.querySelector(`[data-wrapper-type="${event.target.dataset.option}"]`).children]
+
+                children.forEach(item => {
+                    pokemons.append(item)
+                })
+
+                document.querySelector(`[data-wrapper-type="${event.target.dataset.option}"]`)?.remove()
+
+                const x = [...pokemons.children]
+                x.forEach(pokemon => {
+                    // console.log(event.target.dataset.option)
+                    console.log(pokemon.dataset.type)
+                    if(!pokemon.dataset.type.includes(event.target.dataset.option)) {
+                        pokemon.removeAttribute('style')
+                    }
+                })
+
+                break
+            default:
+                break
+        }
+    })
+})

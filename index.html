@@ -15,16 +15,22 @@
                 <legend>Options</legend>
                 <ul data-js="options">
                     <li>
-                        <input type="checkbox" disabled="true">
-                        <a href="">Poison</a>
+                        <label data-option="poison">
+                            <input type="checkbox" data-option="poison" data-input="checkbox">
+                            <a>Poison</a>
+                        </label>
                     </li>
                     <li>
-                        <input type="checkbox" disabled="true">
-                        <a href="">Water</a>
+                        <label>
+                            <input type="checkbox" data-option="water" data-input="checkbox">
+                            <a>Water</a>
+                        </label>
                     </li>
                     <li>
-                        <input type="checkbox" disabled="true">
-                        <a href="">Grass</a>
+                        <label>
+                            <input type="checkbox" data-option="grass" data-input="checkbox">
+                            <a>Grass</a>
+                        </label>
                     </li>
                 </ul>
             </fieldset>
@@ -33,7 +39,7 @@
 
     <section data-js="pokemons">
 
-        <div data-js="pokemon-wrapper">
+        <div data-js="pokemon-wrapper" data-type="poison">
             <div data-js="pokemon-content">
                 <div data-js="title">
                     <span>Pokemon Name</span>
@@ -52,6 +58,10 @@
             </div>
         </div>
 
+    </section>
+
+    <section data-js="pokemons-filtered">
+        
     </section>
 
     <!-- <section>
