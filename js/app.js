@@ -1,5 +1,4 @@
 const pokemons = document.querySelector('[data-js="pokemons"]')
-const optionsCheckbox = document.querySelectorAll('[data-input="checkbox"]')
 
 const pokemonsTypes = []
 
@@ -14,6 +13,8 @@ const pokemonsResolved = () => {
         resolve(pokemonsFulFilled)
     })
 }
+
+
 
 const loadPokemons = async () => {
     const pokemonsSettled = await pokemonsResolved().then(data => Promise.allSettled(data))
@@ -62,6 +63,7 @@ const loadPokemons = async () => {
         pokemonImage.setAttribute('data-js', 'pokemon-image')
         pokemonImage.setAttribute('src', pokemonValue.sprites.front_default)
         pokemonImageWrapper.appendChild(pokemonImage)
+        pokemonImage.setAttribute('alt', name)
 
         const pokemonBottom = document.createElement('div')
         pokemonBottom.setAttribute('data-js', 'pokemon-bottom')
@@ -81,81 +83,88 @@ const loadPokemons = async () => {
 
     pokemonsDiv.forEach(pokemonDiv => pokemons.append(pokemonDiv))
 
-    pokemonsTypes.forEach(pokemonType => {
-        const options = document.querySelector('[data-js="options"]')
-        
-        const li = document.createElement('li')
+    return new Promise((resolve, reject) => {
+        pokemonsTypes.forEach(pokemonType => {
+            const options = document.querySelector('[data-js="options"]')
+            
+            const li = document.createElement('li')
+    
+            const label = document.createElement('span')
+            label.setAttribute('data-option', pokemonType)
+            li.append(label)
+    
+            const input = document.createElement('input')
+            input.setAttribute('type', 'checkbox')
+            input.setAttribute('data-option', pokemonType)
+            input.setAttribute('data-input', 'checkbox')
+            label.append(input)
+    
+            const a = document.createElement('a')
+            a.textContent = pokemonType.replace(pokemonType.charAt(0), pokemonType.charAt(0).toUpperCase())
+            label.append(a)
+    
+            options.append(li)
+            
+            resolve(options)
 
-        const label = document.createElement('span')
-        label.setAttribute('data-option', pokemonType)
-        li.append(label)
-
-        const input = document.createElement('input')
-        input.setAttribute('type', 'checkbox')
-        input.setAttribute('data-option', pokemonType)
-        input.setAttribute('data-input', 'checkbox')
-        label.append(input)
-
-        const a = document.createElement('a')
-        a.textContent = pokemonType.replace(pokemonType.charAt(0), pokemonType.charAt(0).toUpperCase())
-        label.append(a)
-
-        options.append(li)
-
+        })
     })
 }
 
+loadPokemons().then(() => {
+    const optionsCheckbox = document.querySelectorAll('[data-input="checkbox"]')
 
-loadPokemons()
-
-
-optionsCheckbox.forEach(checkbox => {
-    checkbox.addEventListener('click', event => {
-
-        const { checked } = event.target
-
-        switch(checked) {
-            case true:
-
-                const div = document.createElement('div')
-                div.setAttribute('data-wrapper-type', event.target.dataset.option)
-                document.querySelector('[data-js="pokemons-filtered"]').append(div)
-
-                Array.prototype.forEach.call([...pokemons.children], (pokemon) => {
-                    if(pokemon.dataset.type === undefined) {
-                        return
-                    }
-
-                    if(pokemon.dataset.type.includes(`${event.target.dataset.option}`)) {
-                        pokemon.removeAttribute('style')
-                        div.append(pokemon)
-                    }else {
-                        pokemon.style.display = 'none'
-                    }
-                })
-
-                break
-            case false:
-                const children = [...document.querySelector(`[data-wrapper-type="${event.target.dataset.option}"]`).children]
-
-                children.forEach(item => {
-                    pokemons.append(item)
-                })
-
-                document.querySelector(`[data-wrapper-type="${event.target.dataset.option}"]`)?.remove()
-
-                const x = [...pokemons.children]
-                x.forEach(pokemon => {
-                    // console.log(event.target.dataset.option)
-                    console.log(pokemon.dataset.type)
-                    if(!pokemon.dataset.type.includes(event.target.dataset.option)) {
-                        pokemon.removeAttribute('style')
-                    }
-                })
-
-                break
-            default:
-                break
-        }
+    optionsCheckbox.forEach(checkbox => {
+        checkbox.addEventListener('click', event => {
+    
+            const { checked } = event.target
+    
+            switch(checked) {
+                case true:
+    
+                    const div = document.createElement('div')
+                    div.setAttribute('data-wrapper-type', event.target.dataset.option)
+                    document.querySelector('[data-js="pokemons-filtered"]').append(div)
+    
+                    Array.prototype.forEach.call([...pokemons.children], (pokemon) => {
+                        if(pokemon.dataset.type === undefined) {
+                            return
+                        }
+    
+                        if(pokemon.dataset.type.includes(`${event.target.dataset.option}`)) {
+                            pokemon.removeAttribute('style')
+                            div.append(pokemon)
+                        }else {
+                            pokemon.style.display = 'none'
+                        }
+                    })
+    
+                    break
+                case false:
+                    const children = [...document.querySelector(`[data-wrapper-type="${event.target.dataset.option}"]`).children]
+    
+                    children.forEach(item => {
+                        pokemons.append(item)
+                    })
+    
+                    document.querySelector(`[data-wrapper-type="${event.target.dataset.option}"]`)?.remove()
+    
+                    const x = [...pokemons.children]
+                    x.forEach(pokemon => {
+                        // console.log(event.target.dataset.option)
+                        console.log(pokemon.dataset.type)
+                        if(!pokemon.dataset.type.includes(event.target.dataset.option)) {
+                            pokemon.removeAttribute('style')
+                        }
+                    })
+    
+                    break
+                default:
+                    break
+            }
+        })
     })
 })
+
+
+

@@ -27,7 +27,7 @@ header {
 
 [data-js="options"] {
     display: flex;
-    justify-content: space-around;
+    justify-content: space-evenly;
     list-style-type: none;
 }
 
@@ -72,6 +72,9 @@ header {
     font-size: 1.2rem;
     cursor: pointer;
     user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
     box-shadow: 1px 2px var(--color5), -1px -1px var(--color6);
 
 }
