@@ -36,21 +36,6 @@ const loadPokemons = async () => {
         divTitle.setAttribute('data-js', 'title')
         divPokemonContent.append(divTitle)
 
-{/* <div data-js="pokemon-wrapper">
-            <div data-js="pokemon-content">
-                <div data-js="title">
-                    <span>Pokemon Name</span>
-                    <i>x</i>
-                </div>
-            </div>
-            <div data-js="pokemon-lore">
-                <img data-js="pokemon-image">
-            </div>
-            <div data-js="pokemon-bottom">
-                <span>Lorem ipsum dolor sit.</span>
-                <span>Lorem ipsum dolor sit amet.</span>
-            </div>
-        </div> */}
         const span = document.createElement('span')
         span.setAttribute('data-js', String(Math.random() * 99999))
         span.textContent = name
