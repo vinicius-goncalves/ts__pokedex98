@@ -13,7 +13,8 @@
     font-size: 17px;
 }
 
-* { margin: 0; padding: 0; box-sizing: border-box }
+    
+    * { padding: 0; box-sizing: border-box; font-family: 'Press Start 2P', sans-serif; }
 
 body {
     background-color: var(--color1);
@@ -48,6 +49,8 @@ header {
     flex-direction: column;
     align-items: center;
     margin: 30px;
+    position: relative;
+
 }
 
 [data-js="pokemon-content"] {
@@ -83,16 +86,72 @@ header {
     width: 100%;
 }
 
+[data-js="pokemon-lore"] {
+    position: relative;
+}
+
+[data-js="pokemon-lore"] img {
+    position: absolute;
+    transform: translate(-50%, 6%);
+    width: 250px;
+    height: 200px;
+    background-color: red;
+}
+
+
 [data-js="buttons-container"] input {
     width: 100%;
     max-width: 250px;
     padding: 10px;
     letter-spacing: -1px;
-    font-family: 'Press Start 2P', sans-serif;
     box-shadow: 1px 4px var(--color5);
     cursor: pointer;
 }
 
 [data-js="buttons-container"] input:active {
     transform: scale(.95);
+}
+
+[data-js="pokemon-bottom"] {
+    width: 100%;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    position: absolute;
+    bottom: 50px;
+    padding: 10px;
+}
+
+[data-js="pokemon-bottom"] span {
+    width: 100%;
+    max-width: 250px;
+    padding: 10px;
+    margin: 10px;
+    background-color: var(--color2);
+    box-shadow: 3px 3px 0 1px var(--color5), -2px -2px var(--color3);
+    cursor: pointer;
+    user-select: none;
+    font-size: .7rem;
+}
+
+[data-js="pokemon-bottom"] span:active {
+    transform: scale(.95);
+}
+
+@media screen and (max-width: 450px) {
+    body {
+        font-size: .6rem;
+    }
+
+    [data-js="title"] {
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+    }
+
+    [data-js="title"] span {
+        margin: 10px;
+    }
 }
