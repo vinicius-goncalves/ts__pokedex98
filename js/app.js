@@ -91,6 +91,7 @@ const loadPokemons = async () => {
     
             const label = document.createElement('label')
             label.setAttribute('data-option', pokemonType)
+            label.setAttribute('data-js', 'options-label')
             li.append(label)
     
             const input = document.createElement('input')
