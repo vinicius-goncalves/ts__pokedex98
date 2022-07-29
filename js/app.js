@@ -89,7 +89,7 @@ const loadPokemons = async () => {
             
             const li = document.createElement('li')
     
-            const label = document.createElement('span')
+            const label = document.createElement('label')
             label.setAttribute('data-option', pokemonType)
             li.append(label)
     
