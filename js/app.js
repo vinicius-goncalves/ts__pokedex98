@@ -1,4 +1,5 @@
 import { pokemonResults } from './object-utils.js'
+import { handleTools } from './tools.js'
 
 const pokemons = document.querySelector('[data-js="pokemons"]')
 const tools = document.querySelector('[data-js="tools"]')
@@ -25,7 +26,6 @@ const fetchPokemons = (fromPokemons, toPokemons) => {
 const loadPokemons = async (fromPokemons, toPokemons) => {
 
     const pokemonsSettled = await fetchPokemons(fromPokemons, toPokemons).then(pokemon => Promise.all(pokemon))
-    console.log(pokemonsSettled)
 
     const pokemonsDiv = pokemonsSettled.map(pokemon => {
         const { name } = pokemon
@@ -71,13 +71,13 @@ const loadPokemons = async (fromPokemons, toPokemons) => {
         const pokemonBottom = document.createElement('div')
         pokemonBottom.setAttribute('data-js', 'pokemon-bottom')
 
-        const spanPkemonID = document.createElement('span')
-        spanPkemonID.textContent = pokemon.id
+        const spanPokemonID = document.createElement('span')
+        spanPokemonID.textContent = pokemon.id
 
         const spanPokemonType = document.createElement('span')
         spanPokemonType.textContent = pokemon.types[0].type.name
 
-        pokemonBottom.append(spanPkemonID, spanPokemonType)
+        pokemonBottom.append(spanPokemonID, spanPokemonType)
 
         divPokemonWrapper.appendChild(pokemonBottom)
 
@@ -104,115 +104,12 @@ const handlePokemonsTypes = () => {
     return promise
 }
 
-loadPokemons(pokemonResults.fromPokemons, pokemonResults.toPokemons).then(() => {
-    const optionsCheckbox = document.querySelectorAll('[data-input="checkbox"]')
-
-    optionsCheckbox.forEach(checkbox => {
-        checkbox.addEventListener('click', event => {
+loadPokemons(pokemonResults.fromPokemons, pokemonResults.toPokemons)
     
-            const { checked } = event.target
-    
-            switch(checked) {
-                case true:
-    
-                    const div = document.createElement('div')
-                    div.setAttribute('data-wrapper-type', event.target.dataset.option)
-                    document.querySelector('[data-js="pokemons-filtered"]').append(div)
-    
-                    Array.prototype.forEach.call([...pokemons.children], (pokemon) => {
-                        if(pokemon.dataset.type === undefined) {
-                            return
-                        }
-    
-                        if(pokemon.dataset.type.includes(`${event.target.dataset.option}`)) {
-                            pokemon.removeAttribute('style')
-                            div.append(pokemon)
-                        }else {
-                            pokemon.style.display = 'none'
-                        }
-                    })
-    
-                    break
-                case false:
-                    const children = [...document.querySelector(`[data-wrapper-type="${event.target.dataset.option}"]`).children]
-    
-                    children.forEach(item => {
-                        pokemons.append(item)
-                    })
-    
-                    document.querySelector(`[data-wrapper-type="${event.target.dataset.option}"]`)?.remove()
-    
-                    const x = [...pokemons.children]
-                    x.forEach(pokemon => {
-                        // console.log(event.target.dataset.option)
-                        console.log(pokemon.dataset.type)
-                        if(!pokemon.dataset.type.includes(event.target.dataset.option)) {
-                            pokemon.removeAttribute('style')
-                        }
-                    })
-    
-                    break
-                default:
-                    break
-            }
-        })
-    })
-})
-
 const options = document.querySelector('[data-js="options"]')
-const fieldsetWrapper = document.querySelector('[data-js="fieldset-wrapper"]')
 
 tools.addEventListener('click', event => {
-    // <fieldset data-js="filters-wrapper" style="display: none;">
-//     <legend>Filters</legend>
-//     <ul data-js="options"></ul>
-// </fieldset>
-    if(event.target.checked) {
-
-        const fieldSet = document.createElement('fieldset')
-        fieldSet.setAttribute('data-js', `${event.target.dataset.tool}-wrapper`)
-        
-        const legend = document.createElement('legend')
-        legend.textContent = 'Filters'
-        fieldSet.append(legend)
-
-        const ul = document.createElement('ul')
-        ul.setAttribute('data-js', 'options')
-        fieldSet.append(ul)
-
-        fieldsetWrapper.append(fieldSet)
-
-        handlePokemonsTypes().then(pokemonsTypes => {
-            const pokemonsTypesLi = pokemonsTypes.map(pokemonType => {
-                
-                const li = document.createElement('li')
-        
-                const label = document.createElement('label')
-                label.setAttribute('data-option', pokemonType)
-                label.setAttribute('data-js', 'options-label')
-                li.append(label)
-        
-                const input = document.createElement('input')
-                input.setAttribute('type', 'checkbox')
-                input.setAttribute('data-option', pokemonType)
-                input.setAttribute('data-input', 'checkbox')
-                label.append(input)
-        
-                const a = document.createElement('a')
-                a.textContent = pokemonType.replace(pokemonType.charAt(0), pokemonType.charAt(0).toUpperCase())
-                label.append(a)
-        
-                return li
-        
-            })
-
-            pokemonsTypesLi.forEach(li => ul.append(li))
-
-        })
-    }else {
-       document.querySelector(`[data-js="${event.target.dataset.target}"]`).remove()
-
-    }
+    handleTools(event, handlePokemonsTypes)
 })
 
 morePokemons.addEventListener('click', () => {
