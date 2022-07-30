@@ -7,8 +7,6 @@ const setupOptionsCheckbox = () => {
     Array.prototype.forEach.call(optionsCheckbox, (checkboxInput) => {
         checkboxInput.addEventListener('click', event => {
     
-
-            // event.target.dataset.option
             const { checked } = event.target
             const targetDatasetClicked = event.target.dataset
             const { option } = targetDatasetClicked
@@ -21,7 +19,7 @@ const setupOptionsCheckbox = () => {
 
                     document.querySelector('[data-js="pokemons-filtered"]').append(div)
     
-                    Array.prototype.forEach.call([...pokemonsMainList.children], (pokemon) => {
+                    Array.prototype.forEach.call([...pokemonsMainList.children], (pokemon, index) => {
                         if(pokemon.dataset.type === undefined) {
                             return
                         }
@@ -29,7 +27,7 @@ const setupOptionsCheckbox = () => {
                         switch(pokemon.dataset.type.includes(`${option}`)) {
                             case true:
                                 pokemon.removeAttribute('style')
-                                div.append(pokemon)
+                                div.insertAdjacentElement('afterbegin', pokemon)
                                 break
                             case false:
                                 pokemon.style.display = 'none'
@@ -40,18 +38,18 @@ const setupOptionsCheckbox = () => {
                     
                 case false:
                     
-
                     const pokemonsWrappersTypes = 
                         [...document.querySelector(`[data-wrapper-type="${option}"]`).children]
 
                     pokemonsWrappersTypes.forEach(pokemonFiltred => 
-                            pokemonsMainList.append(pokemonFiltred))
+                            pokemonsMainList.insertAdjacentElement('afterbegin', pokemonFiltred))
     
                     document.querySelector(`[data-wrapper-type="${option}"]`)?.remove()
     
                     Array.prototype.forEach.call([...pokemonsMainList.children], pokemon => {
+                        
                         if(!pokemon.dataset.type.includes(option)) {
-                            return pokemon.removeAttribute('style')
+                            pokemon.removeAttribute('style')
                         }
                     })
                     

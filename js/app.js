@@ -28,11 +28,12 @@ const loadPokemons = async (fromPokemons, toPokemons) => {
     const pokemonsSettled = await fetchPokemons(fromPokemons, toPokemons).then(pokemon => Promise.all(pokemon))
 
     const pokemonsDiv = pokemonsSettled.map(pokemon => {
-        const { name } = pokemon
+        const { name, id } = pokemon
 
         const divPokemonWrapper = document.createElement('div')
         divPokemonWrapper.setAttribute('data-js', 'pokemon-wrapper')
         divPokemonWrapper.setAttribute('data-type', `${pokemon.types[0].type.name}`)
+        divPokemonWrapper.setAttribute('data-pokemon-id', `${id}`)
 
         const divPokemonContent = document.createElement('div')
         divPokemonContent.setAttribute('data-js', 'pokemon-content')
@@ -72,7 +73,7 @@ const loadPokemons = async (fromPokemons, toPokemons) => {
         pokemonBottom.setAttribute('data-js', 'pokemon-bottom')
 
         const spanPokemonID = document.createElement('span')
-        spanPokemonID.textContent = pokemon.id
+        spanPokemonID.textContent = id
 
         const spanPokemonType = document.createElement('span')
         spanPokemonType.textContent = pokemon.types[0].type.name
@@ -105,8 +106,6 @@ const handlePokemonsTypes = () => {
 }
 
 loadPokemons(pokemonResults.fromPokemons, pokemonResults.toPokemons)
-    
-const options = document.querySelector('[data-js="options"]')
 
 tools.addEventListener('click', event => {
     handleTools(event, handlePokemonsTypes)
