@@ -1,19 +1,21 @@
 const pokemons = document.querySelector('[data-js="pokemons"]')
+const tools = document.querySelector('[data-js="tools"]')
 
 const pokemonsTypes = []
 
 const pokemonsResolved = () => {
 
-    return new Promise((resolve, _) => {
-        const pokemonsFulFilled = Array(20).fill('').map(async (_, index) => {
+    return new Promise(resolve => {
+       const pokemonsFulfilled = Array(20).fill('').map(async (_, index) => {
             const pokemons = await fetch(`https://pokeapi.co/api/v2/pokemon/${(index + 1)}`)
             const response = await pokemons.json()
             return response
         })
-        resolve(pokemonsFulFilled)
+
+        resolve(pokemonsFulfilled)
+
     })
 }
-
 
 
 const loadPokemons = async () => {
@@ -83,7 +85,7 @@ const loadPokemons = async () => {
 
     pokemonsDiv.forEach(pokemonDiv => pokemons.append(pokemonDiv))
 
-    return new Promise((resolve, reject) => {
+    return new Promise(resolve => {
         pokemonsTypes.forEach(pokemonType => {
             const options = document.querySelector('[data-js="options"]')
             
@@ -111,6 +113,26 @@ const loadPokemons = async () => {
         })
     })
 }
+
+const handlePokemonsTypes = () => {
+    const promise = new Promise(async resolve => {
+        const pokemons = await pokemonsResolved().then(data => Promise.all(data))
+        const pokemonsTypes = pokemons.map(item => {
+            return item.types[0].type.name
+        })
+
+        const filterTypes = pokemonsTypes.filter((item, index, self) => self.indexOf(item) === index)
+        resolve(filterTypes)
+
+    })
+
+    return promise
+
+}
+
+handlePokemonsTypes().then(() => {
+    //Pokemons types will be move to here
+})
 
 loadPokemons().then(() => {
     const optionsCheckbox = document.querySelectorAll('[data-input="checkbox"]')
@@ -167,5 +189,14 @@ loadPokemons().then(() => {
     })
 })
 
+//First prototype for pokemons tools
 
+tools.addEventListener('click', event => {
+    
+    if(event.target.checked) {
+        document.querySelector(`[data-js="${event.target.dataset.target}"]`).style.display = 'block'
+    }else {
+        document.querySelector(`[data-js="${event.target.dataset.target}"]`).style.display = 'none'
 
+    }
+})

@@ -25,19 +25,23 @@ header {
     padding: 10px;
 }
 
-[data-js="options"] {
+[data-js="options"], [data-js="tools"] {
     display: flex;
     justify-content: space-evenly;
     list-style-type: none;
     flex-wrap: wrap;
 }
 
-[data-js="options-label"] {
+[data-js="tools"] {
+    justify-content: flex-start;
+}
+
+[data-js="options-label"], [data-js="tools-label"] {
     display: flex;
     align-items: center;
 }
 
-[data-js="options-label"] input {
+[data-js="options-label"] input, [data-js="tools-label"] input {
     margin: 0 10px;
 }
 
@@ -229,6 +233,6 @@ input[type="checkbox"]:checked::before {
     color: var(--color5);
 }
 
-[data-js="options-label"], [data-js="options-label"] input {
+[data-js="options-label"], [data-js="options-label"] input, [data-js="tools"] input, [data-js="tools-label"] {
     cursor: pointer;
 }

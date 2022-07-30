@@ -13,8 +13,19 @@
     <header>
         <nav data-js="navbar">
             <fieldset>
-                <legend>Choose a pokemon type</legend>
-                <ul data-js="options"></ul>
+                <legend>Tools</legend>
+                <ul data-js="tools">
+                    <li>
+                        <label data-js="tools-label" data-tool="filters" data-target="filters-wrapper">
+                            <input type="checkbox" data-tool="filters" data-target="filters-wrapper">
+                            <span>Filters</span>
+                        </label>
+                    </li>
+                </ul>
+                <fieldset data-js="filters-wrapper" style="display: none;">
+                    <legend>Filters</legend>
+                    <ul data-js="options"></ul>
+                </fieldset>
             </fieldset>
         </nav>
     </header>
