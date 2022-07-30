@@ -48,6 +48,7 @@ const loadPokemons = async (fromPokemons, toPokemons) => {
     console.log(pokemonsSettled)
 
     const pokemonsDiv = pokemonsSettled.map(pokemon => {
+        const { name } = pokemon
 
         const divPokemonWrapper = document.createElement('div')
         divPokemonWrapper.setAttribute('data-js', 'pokemon-wrapper')
