@@ -1,13 +1,38 @@
 const pokemons = document.querySelector('[data-js="pokemons"]')
 const tools = document.querySelector('[data-js="tools"]')
 
-const pokemonsTypes = []
+const morePokemons = document.querySelector('[data-button="more-pokemons"]')
 
-const pokemonsResolved = () => {
+const setMoreResults = {
+    setResult (key, value) {
+        return this[key] = value
+    }
+}
 
+const pokemonResults = Object.create(setMoreResults)
+
+Object.defineProperties(pokemonResults, {
+    fromPokemons: {
+        value: 1,
+        writable: true,
+        enumerable: true,
+    },
+    toPokemons: {
+        value: 20,
+        writable: true,
+        enumerable: true
+    }
+})
+
+
+const fetchPokemons = (fromPokemons, toPokemons) => {
+    
     return new Promise(resolve => {
-       const pokemonsFulfilled = Array(20).fill('').map(async (_, index) => {
-            const pokemons = await fetch(`https://pokeapi.co/api/v2/pokemon/${(index + 1)}`)
+
+        const totalResults = ((toPokemons + 1) - fromPokemons)
+        
+        const pokemonsFulfilled = Array(totalResults).fill('').map(async (_, index) => {
+            const pokemons = await fetch(`https://pokeapi.co/api/v2/pokemon/${(fromPokemons + index)}`)
             const response = await pokemons.json()
             return response
         })
@@ -17,21 +42,16 @@ const pokemonsResolved = () => {
     })
 }
 
+const loadPokemons = async (fromPokemons, toPokemons) => {
 
-const loadPokemons = async () => {
-    const pokemonsSettled = await pokemonsResolved().then(data => Promise.allSettled(data))
-    
+    const pokemonsSettled = await fetchPokemons(fromPokemons, toPokemons).then(pokemon => Promise.all(pokemon))
+    console.log(pokemonsSettled)
+
     const pokemonsDiv = pokemonsSettled.map(pokemon => {
-        const { ['value']: pokemonValue } = pokemon
-        const { name } = pokemonValue
-
-        if(!pokemonsTypes.includes(pokemonValue.types[0].type.name)) {
-            pokemonsTypes.push(pokemonValue.types[0].type.name)
-        }
 
         const divPokemonWrapper = document.createElement('div')
         divPokemonWrapper.setAttribute('data-js', 'pokemon-wrapper')
-        divPokemonWrapper.setAttribute('data-type', `${pokemonValue.types[0].type.name}`)
+        divPokemonWrapper.setAttribute('data-type', `${pokemon.types[0].type.name}`)
 
         const divPokemonContent = document.createElement('div')
         divPokemonContent.setAttribute('data-js', 'pokemon-content')
@@ -63,7 +83,7 @@ const loadPokemons = async () => {
 
         const pokemonImage = document.createElement('img')
         pokemonImage.setAttribute('data-js', 'pokemon-image')
-        pokemonImage.setAttribute('src', pokemonValue.sprites.front_default)
+        pokemonImage.setAttribute('src', pokemon.sprites.front_default)
         pokemonImageWrapper.appendChild(pokemonImage)
         pokemonImage.setAttribute('alt', name)
 
@@ -71,10 +91,10 @@ const loadPokemons = async () => {
         pokemonBottom.setAttribute('data-js', 'pokemon-bottom')
 
         const spanPkemonID = document.createElement('span')
-        spanPkemonID.textContent = pokemonValue.id
+        spanPkemonID.textContent = pokemon.id
 
         const spanPokemonType = document.createElement('span')
-        spanPokemonType.textContent = pokemonValue.types[0].type.name
+        spanPokemonType.textContent = pokemon.types[0].type.name
 
         pokemonBottom.append(spanPkemonID, spanPokemonType)
 
@@ -84,39 +104,13 @@ const loadPokemons = async () => {
     })
 
     pokemonsDiv.forEach(pokemonDiv => pokemons.append(pokemonDiv))
-
-    return new Promise(resolve => {
-        pokemonsTypes.forEach(pokemonType => {
-            const options = document.querySelector('[data-js="options"]')
-            
-            const li = document.createElement('li')
-    
-            const label = document.createElement('label')
-            label.setAttribute('data-option', pokemonType)
-            label.setAttribute('data-js', 'options-label')
-            li.append(label)
-    
-            const input = document.createElement('input')
-            input.setAttribute('type', 'checkbox')
-            input.setAttribute('data-option', pokemonType)
-            input.setAttribute('data-input', 'checkbox')
-            label.append(input)
-    
-            const a = document.createElement('a')
-            a.textContent = pokemonType.replace(pokemonType.charAt(0), pokemonType.charAt(0).toUpperCase())
-            label.append(a)
-    
-            options.append(li)
-            
-            resolve(options)
-
-        })
-    })
+        
 }
 
 const handlePokemonsTypes = () => {
     const promise = new Promise(async resolve => {
-        const pokemons = await pokemonsResolved().then(data => Promise.all(data))
+        const pokemons = await fetchPokemons(pokemonResults.fromPokemons, pokemonResults
+            .toPokemons).then(data => Promise.all(data))
         const pokemonsTypes = pokemons.map(item => {
             return item.types[0].type.name
         })
@@ -127,14 +121,36 @@ const handlePokemonsTypes = () => {
     })
 
     return promise
-
 }
 
-handlePokemonsTypes().then(() => {
-    //Pokemons types will be move to here
+handlePokemonsTypes().then(pokemonsTypes => {
+    pokemonsTypes.forEach(pokemonType => {
+        console.log(pokemonType)
+        const options = document.querySelector('[data-js="options"]')
+        
+        const li = document.createElement('li')
+
+        const label = document.createElement('label')
+        label.setAttribute('data-option', pokemonType)
+        label.setAttribute('data-js', 'options-label')
+        li.append(label)
+
+        const input = document.createElement('input')
+        input.setAttribute('type', 'checkbox')
+        input.setAttribute('data-option', pokemonType)
+        input.setAttribute('data-input', 'checkbox')
+        label.append(input)
+
+        const a = document.createElement('a')
+        a.textContent = pokemonType.replace(pokemonType.charAt(0), pokemonType.charAt(0).toUpperCase())
+        label.append(a)
+
+        options.append(li)
+
+    })
 })
 
-loadPokemons().then(() => {
+loadPokemons(pokemonResults.fromPokemons, pokemonResults.toPokemons).then(() => {
     const optionsCheckbox = document.querySelectorAll('[data-input="checkbox"]')
 
     optionsCheckbox.forEach(checkbox => {
@@ -199,4 +215,13 @@ tools.addEventListener('click', event => {
         document.querySelector(`[data-js="${event.target.dataset.target}"]`).style.display = 'none'
 
     }
+})
+
+morePokemons.addEventListener('click', () => {
+
+    pokemonResults.setResult('fromPokemons', pokemonResults.fromPokemons + 20)
+    pokemonResults.setResult('toPokemons', pokemonResults.toPokemons + 20)
+    
+    loadPokemons(pokemonResults.fromPokemons, pokemonResults.toPokemons)
+
 })

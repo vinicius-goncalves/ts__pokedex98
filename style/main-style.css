@@ -121,20 +121,6 @@ header {
     transform: translate(-50%, 6%);
 }
 
-
-[data-js="buttons-container"] input {
-    width: 100%;
-    max-width: 250px;
-    padding: 10px;
-    letter-spacing: -1px;
-    box-shadow: 1px 4px var(--color5);
-    cursor: pointer;
-}
-
-[data-js="buttons-container"] input:active {
-    transform: scale(.95);
-}
-
 [data-js="pokemon-bottom"] {
     width: 100%;
     text-align: center;
@@ -235,4 +221,22 @@ input[type="checkbox"]:checked::before {
 
 [data-js="options-label"], [data-js="options-label"] input, [data-js="tools"] input, [data-js="tools-label"] {
     cursor: pointer;
+}
+
+[data-js="buttons-container"] div {
+    display: flex;
+    justify-content: center;
+}
+
+[data-js="buttons-container"] input {
+    width: 100%;
+    max-width: 450px;
+    padding: 10px;
+    letter-spacing: -1px;
+    box-shadow: 1px 4px var(--color5);
+    cursor: pointer;
+}
+
+[data-js="buttons-container"] input:active {
+    transform: scale(.95);
 }
