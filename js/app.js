@@ -1,29 +1,9 @@
+import { pokemonResults } from './object-utils.js'
+
 const pokemons = document.querySelector('[data-js="pokemons"]')
 const tools = document.querySelector('[data-js="tools"]')
 
 const morePokemons = document.querySelector('[data-button="more-pokemons"]')
-
-const setMoreResults = {
-    setResult (key, value) {
-        return this[key] = value
-    }
-}
-
-const pokemonResults = Object.create(setMoreResults)
-
-Object.defineProperties(pokemonResults, {
-    fromPokemons: {
-        value: 1,
-        writable: true,
-        enumerable: true,
-    },
-    toPokemons: {
-        value: 20,
-        writable: true,
-        enumerable: true
-    }
-})
-
 
 const fetchPokemons = (fromPokemons, toPokemons) => {
     
@@ -124,33 +104,6 @@ const handlePokemonsTypes = () => {
     return promise
 }
 
-handlePokemonsTypes().then(pokemonsTypes => {
-    pokemonsTypes.forEach(pokemonType => {
-        console.log(pokemonType)
-        const options = document.querySelector('[data-js="options"]')
-        
-        const li = document.createElement('li')
-
-        const label = document.createElement('label')
-        label.setAttribute('data-option', pokemonType)
-        label.setAttribute('data-js', 'options-label')
-        li.append(label)
-
-        const input = document.createElement('input')
-        input.setAttribute('type', 'checkbox')
-        input.setAttribute('data-option', pokemonType)
-        input.setAttribute('data-input', 'checkbox')
-        label.append(input)
-
-        const a = document.createElement('a')
-        a.textContent = pokemonType.replace(pokemonType.charAt(0), pokemonType.charAt(0).toUpperCase())
-        label.append(a)
-
-        options.append(li)
-
-    })
-})
-
 loadPokemons(pokemonResults.fromPokemons, pokemonResults.toPokemons).then(() => {
     const optionsCheckbox = document.querySelectorAll('[data-input="checkbox"]')
 
@@ -206,14 +159,58 @@ loadPokemons(pokemonResults.fromPokemons, pokemonResults.toPokemons).then(() => 
     })
 })
 
-//First prototype for pokemons tools
+const options = document.querySelector('[data-js="options"]')
+const fieldsetWrapper = document.querySelector('[data-js="fieldset-wrapper"]')
 
 tools.addEventListener('click', event => {
-    
+    // <fieldset data-js="filters-wrapper" style="display: none;">
+//     <legend>Filters</legend>
+//     <ul data-js="options"></ul>
+// </fieldset>
     if(event.target.checked) {
-        document.querySelector(`[data-js="${event.target.dataset.target}"]`).style.display = 'block'
+
+        const fieldSet = document.createElement('fieldset')
+        fieldSet.setAttribute('data-js', `${event.target.dataset.tool}-wrapper`)
+        
+        const legend = document.createElement('legend')
+        legend.textContent = 'Filters'
+        fieldSet.append(legend)
+
+        const ul = document.createElement('ul')
+        ul.setAttribute('data-js', 'options')
+        fieldSet.append(ul)
+
+        fieldsetWrapper.append(fieldSet)
+
+        handlePokemonsTypes().then(pokemonsTypes => {
+            const pokemonsTypesLi = pokemonsTypes.map(pokemonType => {
+                
+                const li = document.createElement('li')
+        
+                const label = document.createElement('label')
+                label.setAttribute('data-option', pokemonType)
+                label.setAttribute('data-js', 'options-label')
+                li.append(label)
+        
+                const input = document.createElement('input')
+                input.setAttribute('type', 'checkbox')
+                input.setAttribute('data-option', pokemonType)
+                input.setAttribute('data-input', 'checkbox')
+                label.append(input)
+        
+                const a = document.createElement('a')
+                a.textContent = pokemonType.replace(pokemonType.charAt(0), pokemonType.charAt(0).toUpperCase())
+                label.append(a)
+        
+                return li
+        
+            })
+
+            pokemonsTypesLi.forEach(li => ul.append(li))
+
+        })
     }else {
-        document.querySelector(`[data-js="${event.target.dataset.target}"]`).style.display = 'none'
+       document.querySelector(`[data-js="${event.target.dataset.target}"]`).remove()
 
     }
 })
