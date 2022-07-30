@@ -45,6 +45,9 @@ header {
     margin: 0 10px;
 }
 
+[data-wrapper="fieldset-wrappers"] {
+    margin: 10px;
+}
 
 [data-js="pokemons"] {
     width: 100%;
