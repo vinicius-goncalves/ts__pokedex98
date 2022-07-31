@@ -46,8 +46,7 @@ const updateOptions = (optionClicked) => {
 const setupOptionsCheckbox = () => {
 
     const optionsCheckbox = document.querySelectorAll('[data-input="checkbox"]')
-    console.log(optionsCheckbox)
-
+    
     Array.prototype.forEach.call(optionsCheckbox, (checkboxInput) => {
         checkboxInput.addEventListener('click', event => {
     
