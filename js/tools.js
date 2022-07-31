@@ -4,6 +4,7 @@ const fieldsetWrapper = document.querySelector('[data-js="fieldset-wrapper"]')
 const createOptions = (optionClicked) => {
 
     const pokemonsFiltredSection = document.querySelector('[data-js="pokemons-filtered"]')
+    
     const div = document.createElement('div')
     div.setAttribute('data-wrapper-type', optionClicked)
 
@@ -43,6 +44,7 @@ const updateOptions = (optionClicked) => {
 }
 
 const setupOptionsCheckbox = () => {
+
     const optionsCheckbox = document.querySelectorAll('[data-input="checkbox"]')
     console.log(optionsCheckbox)
 
@@ -52,17 +54,16 @@ const setupOptionsCheckbox = () => {
             const { checked } = event.target
             const targetDatasetClicked = event.target.dataset
             const { ['option']: optionClicked } = targetDatasetClicked
-            console.log(optionClicked)
 
             switch(checked) {
                 case true:
                     createOptions(optionClicked)
                     break
-                    
+
                 case false:
                     updateOptions(optionClicked)
                     break
-                    
+
                 default:
                     break
             }
@@ -70,24 +71,50 @@ const setupOptionsCheckbox = () => {
     })
 }
 
-export const handleTools = (event, handlePokemonsTypes) => {
-
-    const targetClicked = event.target
-    const targetDatasetClicked = targetClicked.dataset
-    const { ['checked']: isChecked } = targetClicked
+const setupPokemonsTypes = (ul, handlePokemonsTypes) => {
+    handlePokemonsTypes().then(pokemonsTypes => {
     
-    const { tool, target, title } = targetDatasetClicked
+        const pokemonsTypesLi = pokemonsTypes.map(pokemonType => {
 
-    if(isChecked) {
+            const li = document.createElement('li')
+    
+            const label = document.createElement('label')
+            label.setAttribute('data-option', pokemonType)
+            label.setAttribute('data-js', 'options-label')
+            li.append(label)
+    
+            const input = document.createElement('input')
+            input.setAttribute('type', 'checkbox')
+            input.setAttribute('data-option', pokemonType)
+            input.setAttribute('data-input', 'checkbox')
+            label.append(input)
+    
+            const pokemonTypeNameFormatted = 
+                pokemonType.replace(
+                        pokemonType.charAt(0), 
+                        pokemonType.charAt(0).toUpperCase())
+
+            const a = document.createElement('a')
+            a.textContent = pokemonTypeNameFormatted
+            label.append(a)
+    
+            return li
+    
+        })
+
+        pokemonsTypesLi.forEach(li => ul.append(li))
+        setupOptionsCheckbox()
         
-        const fieldSet = document.createElement('fieldset')
+    })
+}
+
+const setupToolFieldset = (tool, title, handlePokemonsTypes) => {
+    const fieldSet = document.createElement('fieldset')
         fieldSet.setAttribute('data-js', `${tool}-wrapper`)
         fieldSet.setAttribute('data-wrapper', `fieldset-wrappers`)
 
         const legend = document.createElement('legend')
-
         legend.textContent = title
-
         fieldSet.append(legend)
 
         const ul = document.createElement('ul')
@@ -98,42 +125,32 @@ export const handleTools = (event, handlePokemonsTypes) => {
 
         switch(tool) {
             case 'filters':
-                
-                handlePokemonsTypes().then(pokemonsTypes => {
-
-                    const pokemonsTypesLi = pokemonsTypes.map(pokemonType => {
-                        
-                        const li = document.createElement('li')
-                
-                        const label = document.createElement('label')
-                        label.setAttribute('data-option', pokemonType)
-                        label.setAttribute('data-js', 'options-label')
-                        li.append(label)
-                
-                        const input = document.createElement('input')
-                        input.setAttribute('type', 'checkbox')
-                        input.setAttribute('data-option', pokemonType)
-                        input.setAttribute('data-input', 'checkbox')
-                        label.append(input)
-                
-                        const a = document.createElement('a')
-                        a.textContent = pokemonType.replace(pokemonType.charAt(0), pokemonType.charAt(0).toUpperCase())
-                        label.append(a)
-                
-                        return li
-                
-                    })
-        
-                    pokemonsTypesLi.forEach(li => ul.append(li))
-                    setupOptionsCheckbox()
-                    
-                })
-
+                setupPokemonsTypes(ul, handlePokemonsTypes)
                 break
-            }
-    } else {
+            default:
+                break
+        }
+}
 
-        document.querySelector(`[data-js="${tool}-wrapper"]`)?.remove()
+export const handleTools = (event, handlePokemonsTypes) => {
+
+    const targetClicked = event.target
+    const targetDatasetClicked = targetClicked.dataset
+    const { ['checked']: isChecked } = targetClicked
+    
+    const { tool, target, title } = targetDatasetClicked
+
+    switch(isChecked) {
+        case true:
+            setupToolFieldset(tool, title, handlePokemonsTypes)
+            break
+
+        case false:
+            document.querySelector(`[data-js="${tool}-wrapper"]`)?.remove()
+            break
+
+        default:
+            break        
 
     }
 }
