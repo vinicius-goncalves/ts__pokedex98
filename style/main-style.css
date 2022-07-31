@@ -179,6 +179,16 @@ header {
         margin: 10px;
     }
 
+    [data-js="tools"] {
+        display: flex;
+        flex-direction: column;
+        flex-wrap: wrap;
+    }
+
+    [data-js="tools"] li {
+        margin: 5px 0;
+    }
+
     [data-js="pokemon-image-wrapper"] img {
         width: 128px;
         height: 128px;
@@ -200,12 +210,37 @@ header {
     [data-js="options-label"] input {
         margin: 5px;
     }
+
+    [data-js="findByNameAndID-wrapper"] ul li {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        margin: 10px;
+    }
+
+    [data-js="findByNameAndID-wrapper"] li input {
+        width: 100%;
+        margin: 10px;
+    }
+}
+
+@media screen and (max-width: 300px) {
+    [data-js="tools-label"] {
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+    }
+
+    [data-js="tools-label"] span {
+        margin: 10px 0;
+    }
 }
 
 input[type="checkbox"] {
     appearance: none;
-    width: 24px;
-    height: 24px;
+    min-width: 24px;
+    min-height: 24px;
     background-color: var(--color2);
     box-shadow: 2px 2px var(--color5);
     position: relative;
@@ -213,13 +248,28 @@ input[type="checkbox"] {
 
 input[type="checkbox"]:checked::before {
     content: "X";
-    width: 20px;
-    height: 20px;
+    min-width: 20px;
+    min-height: 20px;
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-30%, -30%);
     color: var(--color5);
+}
+
+input[type="text"] {
+    width: 100%;
+    max-width: 450px;
+    padding: 5px;
+    box-shadow: 
+        inset 2px 2px var(--color5), 
+        inset -2px -2px var(--color4);
+    font-size: 1rem;
+    text-align: center;
+}
+
+input[type="text"]:focus {
+    outline: none;
 }
 
 [data-js="options-label"], [data-js="options-label"] input, [data-js="tools"] input, [data-js="tools-label"] {
@@ -242,4 +292,12 @@ input[type="checkbox"]:checked::before {
 
 [data-js="buttons-container"] input:active {
     transform: scale(.95);
+}
+
+[data-js="findByNameAndID-wrapper"] ul li {
+    display: flex;  
+}
+
+[data-js="findByNameAndID-wrapper"] input {
+    margin: 0 10px;
 }

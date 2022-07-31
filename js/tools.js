@@ -107,7 +107,20 @@ const setupPokemonsTypes = (ul, handlePokemonsTypes) => {
     })
 }
 
-const setupToolFieldset = (tool, title, handlePokemonsTypes) => {
+const makeFetchRequest = async (pokemonNameOrID) => {
+    const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonNameOrID}`)
+    if(!response.ok) {
+        console.log(response.status, response.statusText)
+        return
+    }
+
+    const data = await response.json()
+    return data
+
+} 
+
+const initializeToolsFieldset = (tool, title, handlePokemonsTypes) => {
+
     const fieldSet = document.createElement('fieldset')
         fieldSet.setAttribute('data-js', `${tool}-wrapper`)
         fieldSet.setAttribute('data-wrapper', `fieldset-wrappers`)
@@ -121,11 +134,47 @@ const setupToolFieldset = (tool, title, handlePokemonsTypes) => {
         fieldSet.append(ul)
 
         fieldsetWrapper.append(fieldSet)
-
+        
         switch(tool) {
             case 'filters':
                 setupPokemonsTypes(ul, handlePokemonsTypes)
                 break
+
+            case 'findByNameAndID':
+
+                const li = document.createElement('li')
+
+                const input = document.createElement('input')
+                input.setAttribute('type', 'text')
+                input.setAttribute('data-js', 'pokemonNameOrID')
+
+                const button = document.createElement('input')
+                button.setAttribute('type', 'button')
+                button.setAttribute('value', 'Search')
+
+                li.append(input, button)
+            
+                button.addEventListener('click', () => {
+
+                    const input = document.querySelector('[data-js="pokemonNameOrID"]')
+                    const term = input.value.toLowerCase()
+                    
+                    if(term.match(/[0-9]/g)) {
+                        makeFetchRequest(term).then(pokemon => console.log(pokemon))
+                    }
+
+                    if(term.match(/[a-zA-Z]/g)) {
+                        makeFetchRequest(term).then(pokemon => console.log(pokemon))
+                    }
+
+                    input.value = 'See your console'
+
+                })
+
+                ul.append(li)
+
+                break
+
             default:
                 break
         }
@@ -141,7 +190,7 @@ export const handleTools = (event, handlePokemonsTypes) => {
 
     switch(isChecked) {
         case true:
-            setupToolFieldset(tool, title, handlePokemonsTypes)
+            initializeToolsFieldset(tool, title, handlePokemonsTypes)
             break
 
         case false:
