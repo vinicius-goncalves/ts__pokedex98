@@ -1,49 +1,51 @@
+import { createPokemonWrapper } from './app.js'
+
 const pokemonsMainList = document.querySelector('[data-js="pokemons"]')
 const fieldsetWrapper = document.querySelector('[data-js="fieldset-wrapper"]')
 
-const createOptions = (optionClicked) => {
-
-    const pokemonsFiltredSection = document.querySelector('[data-js="pokemons-filtered"]')
-    
-    const div = document.createElement('div')
-    div.setAttribute('data-wrapper-type', optionClicked)
-
-    pokemonsFiltredSection.append(div)
-
-    Array.prototype.forEach.call([...pokemonsMainList.children], (pokemon) => {
-        if(pokemon.dataset.type === undefined) {
-            return
-        }
-
-        switch(pokemon.dataset.type.includes(`${optionClicked}`)) {
-            case true:
-                pokemon.removeAttribute('style')
-                div.insertAdjacentElement('afterbegin', pokemon)
-                break
-            case false:
-                pokemon.style.display = 'none'
-                break
-        }
-    })
-}
-
-const updateOptions = (optionClicked) => {
-    const pokemonsWrappersTypes = 
-        [...document.querySelector(`[data-wrapper-type="${optionClicked}"]`).children]
-
-    pokemonsWrappersTypes.forEach(pokemonFiltred => 
-            pokemonsMainList.insertAdjacentElement('afterbegin', pokemonFiltred))
-
-    document.querySelector(`[data-wrapper-type="${optionClicked}"]`)?.remove()
-
-    Array.prototype.forEach.call([...pokemonsMainList.children], pokemon => {
-        if(!pokemon.dataset.type.includes(optionClicked)) {
-            pokemon.removeAttribute('style')
-        }
-    })
-}
-
 const setupOptionsCheckbox = () => {
+
+    const createOptions = (optionClicked) => {
+
+        const pokemonsFiltredSection = document.querySelector('[data-js="pokemons-filtered"]')
+        
+        const div = document.createElement('div')
+        div.setAttribute('data-wrapper-type', optionClicked)
+    
+        pokemonsFiltredSection.append(div)
+    
+        Array.prototype.forEach.call([...pokemonsMainList.children], (pokemon) => {
+            if(pokemon.dataset.type === undefined) {
+                return
+            }
+    
+            switch(pokemon.dataset.type.includes(`${optionClicked}`)) {
+                case true:
+                    pokemon.removeAttribute('style')
+                    div.insertAdjacentElement('afterbegin', pokemon)
+                    break
+                case false:
+                    pokemon.style.display = 'none'
+                    break
+            }
+        })
+    }
+    
+    const updateOptions = (optionClicked) => {
+        const pokemonsWrappersTypes = 
+            [...document.querySelector(`[data-wrapper-type="${optionClicked}"]`).children]
+    
+        pokemonsWrappersTypes.forEach(pokemonFiltred => 
+                pokemonsMainList.insertAdjacentElement('afterbegin', pokemonFiltred))
+    
+        document.querySelector(`[data-wrapper-type="${optionClicked}"]`)?.remove()
+    
+        Array.prototype.forEach.call([...pokemonsMainList.children], pokemon => {
+            if(!pokemon.dataset.type.includes(optionClicked)) {
+                pokemon.removeAttribute('style')
+            }
+        })
+    }
 
     const optionsCheckbox = document.querySelectorAll('[data-input="checkbox"]')
     
@@ -110,7 +112,6 @@ const setupPokemonsTypes = (ul, handlePokemonsTypes) => {
 const makeFetchRequest = async (pokemonNameOrID) => {
     const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonNameOrID}`)
     if(!response.ok) {
-        console.log(response.status, response.statusText)
         return
     }
 
@@ -153,22 +154,58 @@ const initializeToolsFieldset = (tool, title, handlePokemonsTypes) => {
                 button.setAttribute('value', 'Search')
 
                 li.append(input, button)
+
+                const reset = document.createElement('input')
+                reset.setAttribute('type', 'button')
+                reset.setAttribute('value', 'Reset')
+                reset.addEventListener('click', () => {
+
+                    const pokemonFiltredSection = document.querySelector('[data-js="pokemons-filtered"]')
+
+                    Array.prototype.forEach.call([...pokemonsMainList.children], (pokemon) => {
+                        pokemon.removeAttribute('style')
+                    })
+                    
+                    Array.prototype.forEach.call([...pokemonFiltredSection.children], (pokemon) => {
+                        pokemon.remove()
+                    })
+
+                    document.querySelectorAll('[data-tool="filters"]')[1].remove('disabled', '')
+                    
+                })
             
-                button.addEventListener('click', () => {
+                button.addEventListener('click', async () => {
+
+                    const pokemonFiltredSection = document.querySelector('[data-js="pokemons-filtered"]')
 
                     const input = document.querySelector('[data-js="pokemonNameOrID"]')
                     const term = input.value.toLowerCase()
                     
                     if(term.match(/[0-9]/g)) {
-                        makeFetchRequest(term).then(pokemon => console.log(pokemon))
+
+                        const pokemon = await makeFetchRequest(term)
+                        const { name, id } = pokemon
+
+                        const div = document.createElement('div')
+                        div.setAttribute('data-pokemon-found', name)
+                        
+                        const pokemonWrapper = createPokemonWrapper(pokemon.types[0].type.name, id, name, pokemon.sprites.front_default)
+                        div.append(pokemonWrapper)
+
+                        pokemonFiltredSection.append(pokemonWrapper)
+
+                        Array.prototype.forEach.call([...pokemonsMainList.children], (pokemon) => {
+                            pokemon.style.display = 'none'
+                        })
+
+                        document.querySelectorAll('[data-tool="filters"]')[1].setAttribute('disabled', '')
+                        li.append(reset)
+
                     }
 
                     if(term.match(/[a-zA-Z]/g)) {
                         makeFetchRequest(term).then(pokemon => console.log(pokemon))
                     }
-
-                    input.value = 'See your console'
-
                 })
 
                 ul.append(li)
