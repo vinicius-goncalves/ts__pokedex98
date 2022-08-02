@@ -1,5 +1,5 @@
-import { createPokemonWrapper } from './app.js'
-import { forEach } from './utils.js'
+import { createPokemonWrapper } from './utils/creators.js'
+import { forEach, makeFetchRequest } from './utils/utils.js'
 
 const pokemonsMainList = document.querySelector('[data-js="pokemons"]')
 const fieldsetWrapper = document.querySelector('[data-js="fieldset-wrapper"]')
@@ -50,22 +50,22 @@ const setupOptionsCheckbox = () => {
 
     const optionsCheckbox = document.querySelectorAll('[data-input="checkbox"]')
     
-    Array.prototype.forEach.call(optionsCheckbox, (checkboxInput) => {
+    forEach(optionsCheckbox, checkboxInput => {
         checkboxInput.addEventListener('click', event => {
     
             const { checked } = event.target
             const targetDatasetClicked = event.target.dataset
             const { ['option']: optionClicked } = targetDatasetClicked
-
+    
             switch(checked) {
                 case true:
                     createOptions(optionClicked)
                     break
-
+    
                 case false:
                     updateOptions(optionClicked)
                     break
-
+    
                 default:
                     break
             }
@@ -110,21 +110,12 @@ const setupPokemonsTypes = (ul, handlePokemonsTypes) => {
     })
 }
 
-const makeFetchRequest = async (pokemonNameOrID) => {
-    const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonNameOrID}`)
-    if(!response.ok) {
-        return
-    }
 
-    const data = await response.json()
-    return data
-
-} 
 
 const initializeToolsFieldset = (tool, title, handlePokemonsTypes) => {
 
     const searchPokemonByTerm = async (termToSearch) => {
-        
+
         const pokemonFiltredSection = document.querySelector('[data-js="pokemons-filtered"]')
 
         const pokemon = await makeFetchRequest(termToSearch)
@@ -229,7 +220,7 @@ export const handleTools = (event, handlePokemonsTypes) => {
     const targetDatasetClicked = targetClicked.dataset
     const { ['checked']: isChecked } = targetClicked
     
-    const { tool, target, title } = targetDatasetClicked
+    const { tool, title } = targetDatasetClicked
 
     switch(isChecked) {
         case true:
