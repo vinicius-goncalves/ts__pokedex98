@@ -1,4 +1,5 @@
 import { createPokemonWrapper } from './app.js'
+import { forEach } from './utils.js'
 
 const pokemonsMainList = document.querySelector('[data-js="pokemons"]')
 const fieldsetWrapper = document.querySelector('[data-js="fieldset-wrapper"]')
@@ -123,98 +124,96 @@ const makeFetchRequest = async (pokemonNameOrID) => {
 const initializeToolsFieldset = (tool, title, handlePokemonsTypes) => {
 
     const fieldSet = document.createElement('fieldset')
-        fieldSet.setAttribute('data-js', `${tool}-wrapper`)
-        fieldSet.setAttribute('data-wrapper', `fieldset-wrappers`)
+    fieldSet.setAttribute('data-js', `${tool}-wrapper`)
+    fieldSet.setAttribute('data-wrapper', `fieldset-wrappers`)
 
-        const legend = document.createElement('legend')
-        legend.textContent = title
-        fieldSet.append(legend)
+    const legend = document.createElement('legend')
+    legend.textContent = title
+    fieldSet.append(legend)
 
-        const ul = document.createElement('ul')
-        ul.setAttribute('data-js', 'options')
-        fieldSet.append(ul)
+    const ul = document.createElement('ul')
+    ul.setAttribute('data-js', 'options')
+    fieldSet.append(ul)
 
-        fieldsetWrapper.append(fieldSet)
+    fieldsetWrapper.append(fieldSet)
+    
+    switch(tool) {
+        case 'filters':
+            setupPokemonsTypes(ul, handlePokemonsTypes)
+            break
+
+        case 'findByNameAndID':
+
+            const li = document.createElement('li')
+
+            const input = document.createElement('input')
+            input.setAttribute('type', 'text')
+            input.setAttribute('data-js', 'pokemonNameOrID')
+
+            const button = document.createElement('input')
+            button.setAttribute('type', 'button')
+            button.setAttribute('value', 'Search')
+
+            li.append(input, button)
+
+            const reset = document.createElement('input')
+            reset.setAttribute('type', 'button')
+            reset.setAttribute('value', 'Reset')
+            reset.addEventListener('click', () => {
+
+                const pokemonFiltredSection = document.querySelector('[data-js="pokemons-filtered"]')
+
+                const pokemonsMainListChildren = [...pokemonsMainList.children]
+                const pokemonFiltredSectionChildren = [...pokemonFiltredSection.children]
+
+                forEach(pokemonsMainListChildren, pokemon => pokemon.removeAttribute('style'))
+                forEach(pokemonFiltredSectionChildren, pokemon => pokemon.remove())
+
+                document.querySelectorAll('[data-tool="filters"]')[1]?.removeAttribute('disabled', '')
+                
+            })
         
-        switch(tool) {
-            case 'filters':
-                setupPokemonsTypes(ul, handlePokemonsTypes)
-                break
+            button.addEventListener('click', async () => {
 
-            case 'findByNameAndID':
+                const pokemonFiltredSection = document.querySelector('[data-js="pokemons-filtered"]')
 
-                const li = document.createElement('li')
+                const input = document.querySelector('[data-js="pokemonNameOrID"]')
+                const term = input.value.toLowerCase()
+                
+                if(term.match(/[0-9]/g)) {
 
-                const input = document.createElement('input')
-                input.setAttribute('type', 'text')
-                input.setAttribute('data-js', 'pokemonNameOrID')
+                    const pokemon = await makeFetchRequest(term)
+                    const { name, id } = pokemon
 
-                const button = document.createElement('input')
-                button.setAttribute('type', 'button')
-                button.setAttribute('value', 'Search')
-
-                li.append(input, button)
-
-                const reset = document.createElement('input')
-                reset.setAttribute('type', 'button')
-                reset.setAttribute('value', 'Reset')
-                reset.addEventListener('click', () => {
-
-                    const pokemonFiltredSection = document.querySelector('[data-js="pokemons-filtered"]')
-
-                    Array.prototype.forEach.call([...pokemonsMainList.children], (pokemon) => {
-                        pokemon.removeAttribute('style')
-                    })
+                    const div = document.createElement('div')
+                    div.setAttribute('data-pokemon-found', name)
                     
-                    Array.prototype.forEach.call([...pokemonFiltredSection.children], (pokemon) => {
-                        pokemon.remove()
-                    })
+                    const pokemonWrapper = createPokemonWrapper(pokemon.types[0].type.name, id, name, pokemon.sprites.front_default)
+                    div.append(pokemonWrapper)
 
-                    document.querySelectorAll('[data-tool="filters"]')[1].remove('disabled', '')
-                    
-                })
-            
-                button.addEventListener('click', async () => {
+                    pokemonFiltredSection.append(pokemonWrapper)
 
-                    const pokemonFiltredSection = document.querySelector('[data-js="pokemons-filtered"]')
+                    const pokemonMainListChildren = [...pokemonsMainList.children]
+                    forEach(pokemonMainListChildren, pokemon => 
+                            pokemon.setAttribute('style', 'display: none;'))
 
-                    const input = document.querySelector('[data-js="pokemonNameOrID"]')
-                    const term = input.value.toLowerCase()
-                    
-                    if(term.match(/[0-9]/g)) {
+                    document.querySelectorAll('[data-tool="filters"]')[1]?.setAttribute('disabled', '')
+                    li.append(reset)
 
-                        const pokemon = await makeFetchRequest(term)
-                        const { name, id } = pokemon
+                }
 
-                        const div = document.createElement('div')
-                        div.setAttribute('data-pokemon-found', name)
-                        
-                        const pokemonWrapper = createPokemonWrapper(pokemon.types[0].type.name, id, name, pokemon.sprites.front_default)
-                        div.append(pokemonWrapper)
+                if(term.match(/[a-zA-Z]/g)) {
+                    makeFetchRequest(term).then(pokemon => console.log(pokemon))
+                }
+            })
 
-                        pokemonFiltredSection.append(pokemonWrapper)
+            ul.append(li)
 
-                        Array.prototype.forEach.call([...pokemonsMainList.children], (pokemon) => {
-                            pokemon.style.display = 'none'
-                        })
+            break
 
-                        document.querySelectorAll('[data-tool="filters"]')[1].setAttribute('disabled', '')
-                        li.append(reset)
-
-                    }
-
-                    if(term.match(/[a-zA-Z]/g)) {
-                        makeFetchRequest(term).then(pokemon => console.log(pokemon))
-                    }
-                })
-
-                ul.append(li)
-
-                break
-
-            default:
-                break
-        }
+        default:
+            break
+    }
 }
 
 export const handleTools = (event, handlePokemonsTypes) => {

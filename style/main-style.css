@@ -301,3 +301,7 @@ input[type="text"]:focus {
 [data-js="findByNameAndID-wrapper"] input {
     margin: 0 10px;
 }
+
+input:disabled + span, input[type="checkbox"]:disabled {
+    opacity: .5;
+}
