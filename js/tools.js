@@ -25,7 +25,7 @@ const setupOptionsCheckbox = () => {
                     div.insertAdjacentElement('afterbegin', pokemon)
                     break
                 case false:
-                    pokemon.style.display = 'none'
+                    pokemon.setAttribute('style', 'display: none')
                     break
             }
         })
@@ -45,7 +45,7 @@ const setupOptionsCheckbox = () => {
         if(pokemonsFiltredSection.children.length === 0) {
             Array.prototype.forEach.call([...pokemonsMainList.children], (pokemon) => {
                 pokemon.removeAttribute('style')
-            });
+            })
         }
     }
 
@@ -163,7 +163,7 @@ const initializeToolsFieldset = (tool, title, handlePokemonsTypes) => {
             forEach(pokemonFiltredSectionChildren, pokemon => pokemon.remove())
 
             document.querySelectorAll('[data-tool="filters"]')[1]?.removeAttribute('disabled', '')
-            inputForSearch.value = ''
+            inputForSearch.setAttribute('value', '')
             
         })
     

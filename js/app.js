@@ -4,7 +4,7 @@ import { pokemonResults } from './utils/object-result.js'
 
 import { handleTools } from './tools.js'
 
-const pokemons = document.querySelector('[data-js="pokemons"]')
+const pokemonsMainList = document.querySelector('[data-js="pokemons"]')
 const tools = document.querySelector('[data-js="tools"]')
 
 const morePokemons = document.querySelector('[data-button="more-pokemons"]')
@@ -28,9 +28,11 @@ const fetchPokemons = (fromPokemons, toPokemons) => {
 
 const loadPokemons = async (fromPokemons, toPokemons) => {
 
-    const pokemonsSettled = await fetchPokemons(fromPokemons, toPokemons).then(pokemon => Promise.all(pokemon))
+    const pokemonsSettled = await fetchPokemons(fromPokemons, toPokemons)
+    const pokemons = await Promise.allSettled(pokemonsSettled)
 
-    const pokemonsDiv = pokemonsSettled.map(pokemon => {
+    const pokemonsDiv = pokemons.map((pokemonSettledStatus) => {
+        const { ['value']: pokemon } = pokemonSettledStatus
         const { name, id } = pokemon
 
         const pokemonWrapper = createPokemonWrapper(pokemon.types[0].type.name, id, name, pokemon.sprites.front_default)
@@ -38,7 +40,7 @@ const loadPokemons = async (fromPokemons, toPokemons) => {
 
     })
 
-    pokemonsDiv.forEach(pokemonDiv => pokemons.append(pokemonDiv))    
+    pokemonsDiv.forEach(pokemonDiv => pokemonsMainList.append(pokemonDiv))    
 }
 
 const handlePokemonsTypes = () => {
