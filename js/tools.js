@@ -3,13 +3,12 @@ import { forEach, makeFetchRequest } from './utils/utils.js'
 
 const pokemonsMainList = document.querySelector('[data-js="pokemons"]')
 const fieldsetWrapper = document.querySelector('[data-js="fieldset-wrapper"]')
+const pokemonsFiltredSection = document.querySelector('[data-js="pokemons-filtered"]')
 
 const setupOptionsCheckbox = () => {
 
     const createOptions = (optionClicked) => {
 
-        const pokemonsFiltredSection = document.querySelector('[data-js="pokemons-filtered"]')
-        
         const div = document.createElement('div')
         div.setAttribute('data-wrapper-type', optionClicked)
     
@@ -36,16 +35,18 @@ const setupOptionsCheckbox = () => {
         const pokemonsWrappersTypes = 
             [...document.querySelector(`[data-wrapper-type="${optionClicked}"]`).children]
     
-        pokemonsWrappersTypes.forEach(pokemonFiltred => 
-                pokemonsMainList.insertAdjacentElement('afterbegin', pokemonFiltred))
+        pokemonsWrappersTypes.forEach(pokemonFiltred => {
+            pokemonFiltred.setAttribute('style', 'display: none');
+            pokemonsMainList.insertAdjacentElement('afterbegin', pokemonFiltred)
+        })
     
         document.querySelector(`[data-wrapper-type="${optionClicked}"]`)?.remove()
-    
-        Array.prototype.forEach.call([...pokemonsMainList.children], pokemon => {
-            if(!pokemon.dataset.type.includes(optionClicked)) {
+
+        if(pokemonsFiltredSection.children.length === 0) {
+            Array.prototype.forEach.call([...pokemonsMainList.children], (pokemon) => {
                 pokemon.removeAttribute('style')
-            }
-        })
+            });
+        }
     }
 
     const optionsCheckbox = document.querySelectorAll('[data-input="checkbox"]')
@@ -109,8 +110,6 @@ const setupPokemonsTypes = (ul, handlePokemonsTypes) => {
         
     })
 }
-
-
 
 const initializeToolsFieldset = (tool, title, handlePokemonsTypes) => {
 
