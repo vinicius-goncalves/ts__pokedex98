@@ -1,3 +1,5 @@
+import Pokemon from '../types/Pokemon.js';
+
 export const createPokemonWrapper = (pokemonType, pokemonId, pokemonName, pokemonSprite) => {
     const divPokemonWrapper = document.createElement('div')
     divPokemonWrapper.setAttribute('data-js', 'pokemon-wrapper')
@@ -15,12 +17,12 @@ export const createPokemonWrapper = (pokemonType, pokemonId, pokemonName, pokemo
     const span = document.createElement('span')
     span.setAttribute('data-js', String(Math.random() * 99999))
     span.textContent = pokemonName
-    
+
     const i = document.createElement('i')
     i.textContent = 'x'
     i.setAttribute('data-pokemon-id-close', `${pokemonId}`)
 
-    
+
     i.addEventListener('click', event => {
         const { pokemonIdClose } = event.target.dataset
         document.querySelector(`[data-pokemon-id="${pokemonIdClose}"]`)?.remove()

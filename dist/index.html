@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style/main-style.css" type="text/css">
+    <link rel="icon" href="assets/images/favicon.png" type="image/x-icon">
+    <title>Pokedex98 | vinicius-goncalves.com</title>
+</head>
+<body>
+
+    <header>
+        <nav data-js="navbar">
+            <fieldset data-field="wrapper">
+                <legend>Tools</legend>
+                <ul data-js="tools">
+                    <li>
+                        <label
+                            data-js="tools-label"
+                            data-tool="filters"
+                            data-title="Filters"
+                            data-target="filters-wrapper">
+                            <input type="checkbox"
+                                data-tool="filters"
+                                data-title="Filters"
+                                data-target="filters-wrapper">
+                            <span>Filters</span>
+                        </label>
+                    </li>
+                    <li>
+                        <label data-js="tools-label"
+                            data-tool="findByNameAndID"
+                            data-title="Find by Name/ID"
+                            data-target="filters-wrapper">
+                            <input type="checkbox"
+                                data-tool="findByNameAndID"
+                                data-title="Find by Name/ID"  data-target="findByNameAndID-wrapper">
+                            <span>Find by name/ID</span>
+                        </label>
+                    </li>
+                </ul>
+            </fieldset>
+        </nav>
+    </header>
+    <main data-pokemons="container">
+        <div data-pokemons="content">
+            <!-- <div data-pokemon="wrapper" data-type="grass" data-pokemon-id="1" class="pokemon-wrapper window window-shadow">
+                <div data-pokemon="content">
+                   <div data-pokemon="header">
+                        <span data-pokemon-header="title">bulbasaur</span>
+                        <button class="btn" data-pokemon-header="close-btn" data-pokemon-id-close="1">x</button>
+                    </div>
+                    <figure data-pokemon="image-wrapper">
+                        <img data-pokemon="image" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png">
+                    </figure>
+                    <div data-pokemon="description">
+                        <span class="btn-like" data-pokemon-description="id" role="button">1</span>
+                        <span class="btn-like" data-pokemon-description="type" role="button">grass</span>
+                    </div>
+                </div>
+            </div> -->
+        </div>
+        <div data-pokemons="filter"></div>
+    </main>
+    <footer>
+        <div data-js="buttons-container">
+            <button type="button" class="btn">Fetch pokemons</button>
+        </div>
+    </footer>
+    <!-- <section data-js="pokemons-filtered"></section> -->
+
+
+    <!-- <section data-js="buttons-container">
+        <div>
+            <input type="button" value="More pokemons" class="btn">
+        </div>
+    </section> -->
+    <script src="./app/app.js" type="module"></script>
+</body>
+</html>
