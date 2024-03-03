@@ -2,7 +2,6 @@ import type Pokemon from '../types/Pokemon.js';
 
 function sanitizePokemon(pokemonResponse: any): Pokemon {
 
-    console.log(pokemonResponse)
     const { id, name, types, sprites } = pokemonResponse;
     const typeName = types[0]?.type.name;
     const sprite = sprites?.front_default;

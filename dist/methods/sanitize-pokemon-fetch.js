@@ -1,5 +1,4 @@
 function sanitizePokemon(pokemonResponse) {
-    console.log(pokemonResponse);
     const { id, name, types, sprites } = pokemonResponse;
     const typeName = types[0]?.type.name;
     const sprite = sprites?.front_default;
