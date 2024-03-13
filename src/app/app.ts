@@ -1,71 +1,25 @@
-import('./dom/pokemons-loader.js');
+import('../dom/programs-like/draggable-programs-like.js');
 
-// import('../methods/fetch-pokemons.js');
+import loadPokemons from '../dom/pokemons/pokemons-loader.js';
+import randomSearch from '../dom/tools/_random-fetch.js';
+import settings from './settings.js';
 
-// const pokemonsMainList = document.querySelector('[data-js="pokemons"]')
-// const tools = document.querySelector('[data-js="tools"]')
+const fetchPokemonsBtn = <HTMLButtonElement>document.querySelector('[data-btn="fetch-pokemons"]');
 
-// const morePokemons = document.querySelector('[data-button="more-pokemons"]')
+function loadMorePokemons() {
 
-// const fetchPokemons = (fromPokemons, toPokemons) => {
+    settings.pokemonsFetch.fromId = settings.pokemonsFetch.toId + 1;
+    settings.pokemonsFetch.toId = settings.pokemonsFetch.toId + 15;
 
-//     return new Promise(resolve => {
+    loadPokemons(settings.pokemonsFetch.fromId, settings.pokemonsFetch.toId);
+}
 
-//         const totalResults = ((toPokemons + 1) - fromPokemons)
+fetchPokemonsBtn.addEventListener('click', (): void => {
 
-//         const pokemonsFulfilled = Array(totalResults).fill('').map(async (_, index) => {
-//             const pokemons = await fetch(`https://pokeapi.co/api/v2/pokemon/${(fromPokemons + index)}`)
-//             const response = await pokemons.json()
-//             return response
-//         })
+    if(<HTMLInputElement>document.getElementById('random-fetch')?.checked) {
+        randomSearch();
+        return;
+    }
 
-//         resolve(pokemonsFulfilled)
-//     })
-// }
-
-// const loadPokemons = async (fromPokemons, toPokemons) => {
-
-//     const pokemonsSettled = await fetchPokemons(fromPokemons, toPokemons)
-//     const pokemons = await Promise.allSettled(pokemonsSettled)
-
-//     const pokemonsDiv = pokemons.map((pokemonSettledStatus) => {
-//         const { ['value']: pokemon } = pokemonSettledStatus
-//         const { name, id } = pokemon
-
-//         const pokemonWrapper = createPokemonWrapper(pokemon.types[0].type.name, id, name, pokemon.sprites.front_default)
-//         return pokemonWrapper
-
-//     })
-
-//     pokemonsDiv.forEach(pokemonDiv => pokemonsMainList.append(pokemonDiv))
-// }
-
-// const handlePokemonsTypes = () => {
-//     const promise = new Promise(async resolve => {
-//         const pokemons = await fetchPokemons(pokemonResults.fromPokemons, pokemonResults
-//             .toPokemons).then(data => Promise.all(data))
-//         const pokemonsTypes = pokemons.map(item => {
-//             return item.types[0].type.name
-//         })
-
-//         const filterTypes = pokemonsTypes.filter((item, index, self) => self.indexOf(item) === index)
-//         resolve(filterTypes)
-
-//     })
-
-//     return promise
-// }
-
-// loadPokemons(pokemonResults.fromPokemons, pokemonResults.toPokemons)
-
-// tools.addEventListener('click', event => {
-//     handleTools(event, handlePokemonsTypes)
-// })
-
-// morePokemons.addEventListener('click', () => {
-
-//     pokemonResults.setResult('fromPokemons', pokemonResults.fromPokemons + 20);
-//     pokemonResults.setResult('toPokemons', pokemonResults.toPokemons + 20);
-
-//     loadPokemons(pokemonResults.fromPokemons, pokemonResults.toPokemons);
-// });
+    loadMorePokemons();
+});

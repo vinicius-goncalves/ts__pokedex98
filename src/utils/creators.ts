@@ -1,4 +1,4 @@
-import Pokemon from '../types/Pokemon.js';
+import Pokemon from '../types/pokemons/Pokemon.js';
 
 export const createPokemonWrapper = (pokemonType, pokemonId, pokemonName, pokemonSprite) => {
     const divPokemonWrapper = document.createElement('div')

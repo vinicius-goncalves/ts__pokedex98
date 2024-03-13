@@ -2,9 +2,15 @@
 
 @import url('./windows-style/window.css');
 @import url('./windows-style/window-shadow.css');
-@import url('./windows-style/button-shadow.css');
+@import url('./windows-style/window-header.css');
+@import url('./windows-style/button.css');
+@import url('./windows-style/checkbox.css');
+@import url('./windows-style/program-like.css');
+@import url('./windows-style/textbox.css');
 
 @import url('./pokemon/pokemon-wrapper.css');
+@import url('./tools.css');
+
 
 @font-face {
     font-family: 'windows';
@@ -17,7 +23,7 @@
     --blue1: #000180;
 
     --color0: #000180;
-    --color1: #008282;
+    --color1: #57A8A8;
     --color2: #C3C3C3;
     --color3: #FFFFC7;
 
@@ -31,6 +37,7 @@
 * { padding: 0; margin: 0; box-sizing: border-box; font-family: 'windows', sans-serif; font-size: 17px; }
 
 body {
+
     background-color: var(--color1);
     font-size: 2rem;
     user-select: none;
@@ -38,41 +45,15 @@ body {
     -webkit-user-select: none;
 
     & [data-pokemons="content"] {
+        width: 100%;
         display: flex;
+        flex-wrap: wrap;
         justify-content: center;
-        align-items: center;
-        flex-flow: wrap row;
     }
 }
 
 header {
     padding: 10px;
-}
-
-[data-js="options"], [data-js="tools"] {
-    display: flex;
-    justify-content: space-evenly;
-    list-style-type: none;
-    flex-wrap: wrap;
-}
-
-[data-js="tools"] {
-    justify-content: flex-start;
-}
-
-[data-js="options-label"], [data-js="tools-label"] {
-    display: flex;
-    align-items: center;
-}
-
-[data-js="options-label"] input, [data-js="tools-label"] input {
-    margin: 0 10px;
-}
-
-[data-field="wrapper"] {
-
-    margin: 10px;
-    padding: 15px;
 }
 
 [data-js="pokemons"] {
@@ -89,7 +70,7 @@ header {
     width: 288px;
 }
 
-footer {
+[data-js="buttons-container"] {
 
     width: 100%;
     text-align: center;
@@ -105,11 +86,6 @@ footer {
     & button:hover {
         cursor: pointer;
     }
-
-    /* width: 100%;
-    & > * {
-        width: 100%;
-    } */
 }
 
 @media screen and (max-width: 450px) {
@@ -185,7 +161,7 @@ footer {
     }
 }
 
-input[type="checkbox"] {
+/* input[type="checkbox"] {
     appearance: none;
     min-width: 24px;
     min-height: 24px;
@@ -237,7 +213,7 @@ input[type="text"]:focus {
 
 [data-js="buttons-container"] input:hover {
     cursor: pointer;
-}
+} */
 
 /* [data-js="buttons-container"] input {
     width: 100%;
@@ -252,7 +228,7 @@ input[type="text"]:focus {
     transform: scale(.95);
 } */
 
-[data-js="findByNameAndID-wrapper"] ul li {
+/* [data-js="findByNameAndID-wrapper"] ul li {
     display: flex;
 }
 
@@ -262,4 +238,4 @@ input[type="text"]:focus {
 
 input:disabled + span, input[type="checkbox"]:disabled {
     opacity: .5;
-}
+} */

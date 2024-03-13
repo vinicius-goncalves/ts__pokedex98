@@ -1,0 +1,23 @@
+.header {
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-image: linear-gradient(to left, var(--blue0) 0%, var(--blue1) 100%);
+    padding: .65rem;
+    width: 100%;
+
+    & .header-title {
+        color: var(--color4);
+        font-weight: bold;
+        letter-spacing: .09rem;
+    }
+
+    & .header-btn {
+        padding: .25rem .5rem;
+        font-size: .8rem;
+        font-weight: bold;
+        border: none;
+        text-transform: uppercase;
+    }
+}

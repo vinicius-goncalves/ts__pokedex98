@@ -1,0 +1,33 @@
+.program-like {
+
+    & .program-like-container {
+        width: 100%;
+        height: 100%;
+
+        & .program-like-content {
+            padding: 15px;
+        }
+    }
+
+    & .btns {
+
+        position: relative;
+        width: 100%;
+
+        & > .btns-wrapper {
+
+            bottom: 0;
+            right: 0;
+            justify-content: end;
+            display: flex;
+            gap: 15px;
+            padding: .5rem;
+
+            & .btn {
+                border: none;
+                font-size: .8rem;
+                padding: .3rem 1.5rem;
+            }
+        }
+    }
+}

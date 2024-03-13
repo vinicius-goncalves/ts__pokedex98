@@ -1,0 +1,20 @@
+:root {
+    --black: #0D0D0D;
+    --gray: #808080;
+    --white: #F2F2F2;
+    --bright-gray: #DFDFDF;
+}
+
+.textbox {
+
+    box-shadow:
+        inset -1px -1px var(--white),
+        inset 1px 1px var(--gray),
+        inset -2px -2px var(--bright-gray),
+        inset 2px 2px var(--black);
+
+    border: none;
+    outline: none;
+    padding: .2rem;
+    text-indent: .15rem;
+}

@@ -1,81 +1,81 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style/main-style.css" type="text/css">
-    <link rel="icon" href="assets/images/favicon.png" type="image/x-icon">
-    <title>Pokedex98 | vinicius-goncalves.com</title>
-</head>
-<body>
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="style/main-style.css" type="text/css">
+        <link rel="icon" href="assets/images/favicon.ico" type="image/x-icon" width="64x64">
+        <title>Pokedex98 | vinicius-goncalves.com</title>
+    </head>
+    <body>
 
-    <header>
-        <nav data-js="navbar">
-            <fieldset data-field="wrapper">
-                <legend>Tools</legend>
-                <ul data-js="tools">
-                    <li>
-                        <label
-                            data-js="tools-label"
-                            data-tool="filters"
-                            data-title="Filters"
-                            data-target="filters-wrapper">
-                            <input type="checkbox"
-                                data-tool="filters"
-                                data-title="Filters"
-                                data-target="filters-wrapper">
-                            <span>Filters</span>
-                        </label>
-                    </li>
-                    <li>
-                        <label data-js="tools-label"
-                            data-tool="findByNameAndID"
-                            data-title="Find by Name/ID"
-                            data-target="filters-wrapper">
-                            <input type="checkbox"
-                                data-tool="findByNameAndID"
-                                data-title="Find by Name/ID"  data-target="findByNameAndID-wrapper">
-                            <span>Find by name/ID</span>
-                        </label>
-                    </li>
-                </ul>
-            </fieldset>
-        </nav>
-    </header>
-    <main data-pokemons="container">
-        <div data-pokemons="content">
-            <!-- <div data-pokemon="wrapper" data-type="grass" data-pokemon-id="1" class="pokemon-wrapper window window-shadow">
-                <div data-pokemon="content">
-                   <div data-pokemon="header">
-                        <span data-pokemon-header="title">bulbasaur</span>
-                        <button class="btn" data-pokemon-header="close-btn" data-pokemon-id-close="1">x</button>
-                    </div>
-                    <figure data-pokemon="image-wrapper">
-                        <img data-pokemon="image" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png">
-                    </figure>
-                    <div data-pokemon="description">
-                        <span class="btn-like" data-pokemon-description="id" role="button">1</span>
-                        <span class="btn-like" data-pokemon-description="type" role="button">grass</span>
+        <!-- <div data-modal="search-by-name-or-id" class="window window-shadow program-like" style="position: absolute; z-index: 1;">
+            <div data-modal-content="search-by-name-or-id" class="program-like-container">
+                <div class="header">
+                    <span class="header-title">albblaldBLDAGASD3</span>
+                    <button class="btn header-btn">X</button>
+                </div>
+                <div data-modal-template="slot">
+                    <div class="program-like-main" style="display: flex; flex-direction: column; gap: 5px;">
+                        <p>
+                            <label>I'm looking for: <input type="text" class="textbox"></label>
+                        </p>
+                        <p>
+                            <label>I'm looking for: <input type="text" class="textbox"></label>
+                        </p>
                     </div>
                 </div>
-            </div> -->
-        </div>
-        <div data-pokemons="filter"></div>
-    </main>
-    <footer>
-        <div data-js="buttons-container">
-            <button type="button" class="btn">Fetch pokemons</button>
-        </div>
-    </footer>
-    <!-- <section data-js="pokemons-filtered"></section> -->
+                <footer class="btns">
+                    <div class="btns-wrapper">
+                        <button class="btn">Search</button>
+                        <button class="btn">Cancel</button>
+                    </div>
+                </footer>
+            </div>
+        </div> -->
+        <style>
+            a {
+                background-color: #0b0b0b74;
+            }
+        </style>
 
-
-    <!-- <section data-js="buttons-container">
-        <div>
-            <input type="button" value="More pokemons" class="btn">
-        </div>
-    </section> -->
-    <script src="./app/app.js" type="module"></script>
-</body>
+        <header>
+            <nav data-js="navbar">
+                <fieldset data-tools="wrapper">
+                    <legend>Tools</legend>
+                    <menu data-tools="content">
+                        <li data-tool="wrapper-li">
+                            <button id="search-pokemon" type="button" class="btn">
+                                Search pokemon
+                            </button>
+                        </li>
+                        <li data-tool="wrapper-li">
+                            <label for="smart-fetch">
+                                <input id="smart-fetch" type="checkbox" class="checkbox">
+                                <span>Smart fetch</span>
+                            </label>
+                        </li>
+                        <li data-tool="wrapper-li">
+                            <label for="random-fetch">
+                                <input id="random-fetch" type="checkbox" class="checkbox">
+                                <span>Random fetch</span>
+                            </label>
+                        </li>
+                    </menu>
+                </fieldset>
+            </nav>
+        </header>
+        <main data-pokemons="container">
+            <div data-pokemons="content"></div>
+            <div data-pokemons="filter"></div>
+        </main>
+        <footer>
+            <div data-js="buttons-container">
+                <button data-btn="fetch-pokemons" type="button" class="btn">Fetch pokemons</button>
+            </div>
+        </footer>
+        <script src="./app/app.js" type="module"></script>
+        <script src="./dom/tools/tools.js" type="module"></script>
+    </body>
 </html>
