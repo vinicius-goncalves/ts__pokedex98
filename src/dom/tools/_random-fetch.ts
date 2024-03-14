@@ -44,7 +44,7 @@ async function randomSearch() {
     const sanitizedPokemons = sanitizePokemons(pokemons as Response[]);
 
     const renderedPokemons = renderPokemons(sanitizedPokemons);
-    renderedPokemons.forEach(p => pokemonsContent.appendChild(p))
+    renderedPokemons.forEach(p => pokemonsContent.appendChild(p));
 }
 
 export default randomSearch;

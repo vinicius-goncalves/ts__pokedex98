@@ -1,4 +1,4 @@
-import type ToolName from '../../types/Tools.js';
+import type ToolName from '../types/Tools.js';
 
 class ToolsManager {
 

@@ -1,6 +1,6 @@
 import settings from '../../app/settings.js';
 import loadPokemons from '../pokemons/pokemons-loader.js';
-import ToolsManager from './Tools-Manager.js';
+import ToolsManager from '../../classes/ToolsManager.js';
 import randomFetch from './_random-fetch.js';
 const fetchPokemonsBtn = document.querySelector('[data-btn="fetch-pokemons"]');
 const smartFetchTool = new ToolsManager('smart-fetch');

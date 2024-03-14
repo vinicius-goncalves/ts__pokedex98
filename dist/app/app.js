@@ -1,6 +1,6 @@
 import('../dom/programs-like/draggable-programs-like.js');
 import loadPokemons from '../dom/pokemons/pokemons-loader.js';
-import ToolsManager from '../dom/tools/Tools-Manager.js';
+import ToolsManager from '../classes/ToolsManager.js';
 import randomSearch from '../dom/tools/_random-fetch.js';
 import settings from './settings.js';
 const fetchPokemonsBtn = document.querySelector('[data-btn="fetch-pokemons"]');
