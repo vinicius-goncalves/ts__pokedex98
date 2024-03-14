@@ -18,8 +18,11 @@ class DraggableProgramLike {
     static getProgramsLike() {
         return programsLike;
     }
+    static getProgramsLikeLen() {
+        return DraggableProgramLike.getProgramsLike().length;
+    }
     static overlapProgramLike(draggableProgramLike) {
-        const dplLen = DraggableProgramLike.getProgramsLike().length;
+        const dplLen = DraggableProgramLike.getProgramsLikeLen();
         const applyOverlay = ({ programLikeContext }, index) => programLikeContext === draggableProgramLike.programLikeContext
             ? programLikeContext.style.zIndex = '99'
             : programLikeContext.style.zIndex = String(index + dplLen);
@@ -27,8 +30,10 @@ class DraggableProgramLike {
     }
     static removeProgramLike(programLikeContext) {
         const programsLike = DraggableProgramLike.getProgramsLike();
-        const index = programsLike.findIndex(i => i.programLikeContext == programLikeContext);
-        programsLike.splice(index, 1);
+        const indexFound = programsLike.findIndex((dpl) => dpl.programLikeContext == programLikeContext);
+        if (indexFound !== -1) {
+            programsLike.splice(indexFound, 1);
+        }
     }
     getProgramLikeHeader() {
         const modalHeader = this.programLikeContext.querySelector('.header');

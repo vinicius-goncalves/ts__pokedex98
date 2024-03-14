@@ -33,9 +33,13 @@ class DraggableProgramLike {
         return programsLike;
     }
 
+    public static getProgramsLikeLen(): number {
+        return DraggableProgramLike.getProgramsLike().length;
+    }
+
     public static overlapProgramLike(draggableProgramLike: DraggableProgramLike): void {
 
-        const dplLen: number = DraggableProgramLike.getProgramsLike().length;
+        const dplLen: number = DraggableProgramLike.getProgramsLikeLen()
 
         const applyOverlay = ({ programLikeContext }: DraggableProgramLike, index: number) => programLikeContext === draggableProgramLike.programLikeContext
             ? programLikeContext.style.zIndex = '99'
@@ -48,8 +52,11 @@ class DraggableProgramLike {
 
         const programsLike = DraggableProgramLike.getProgramsLike();
 
-        const index = programsLike.findIndex(i => i.programLikeContext == programLikeContext);
-        programsLike.splice(index, 1);
+        const indexFound = programsLike.findIndex((dpl: DraggableProgramLike) => dpl.programLikeContext == programLikeContext);
+
+        if(indexFound !== -1) {
+            programsLike.splice(indexFound, 1);
+        }
     }
 
     public getProgramLikeHeader(): HTMLDivElement {

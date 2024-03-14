@@ -44,30 +44,19 @@ body {
     -moz-user-select: none;
     -webkit-user-select: none;
 
+    & header {
+        padding: 10px;
+    }
+}
+
+[data-pokemons="container"] {
+
     & [data-pokemons="content"] {
         width: 100%;
         display: flex;
         flex-wrap: wrap;
         justify-content: center;
     }
-}
-
-header {
-    padding: 10px;
-}
-
-[data-js="pokemons"] {
-    width: 100%;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-}
-
-/* [data-js="pokemon-wrapper"] {
-    /* height: 100%; */
-
-[data-js="pokemons-filtered"] span {
-    width: 288px;
 }
 
 [data-js="buttons-container"] {
@@ -88,7 +77,20 @@ header {
     }
 }
 
+@media screen and (max-width: 600px) {
+
+    [data-pokemons="content"] {
+
+        flex-flow: wrap row;
+
+        & > * {
+            flex: 0 0 33%;
+        }
+    }
+}
+
 @media screen and (max-width: 450px) {
+
     body {
         font-size: .6rem;
     }
@@ -112,41 +114,6 @@ header {
     [data-js="tools"] li {
         margin: 5px 0;
     }
-
-    [data-js="pokemon-image-wrapper"] img {
-        width: 128px;
-        height: 128px;
-    }
-
-    [data-js="pokemon-image-wrapper"] span {
-        width: 104px;
-        height: 141px;
-    }
-
-    [data-js="pokemon-wrapper"] {
-        margin: 30px 0;
-    }
-
-    [data-js="options"] {
-        flex-direction: column;
-    }
-
-    [data-js="options-label"] input {
-        margin: 5px;
-    }
-
-    [data-js="findByNameAndID-wrapper"] ul li {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        margin: 10px;
-    }
-
-    [data-js="findByNameAndID-wrapper"] li input {
-        width: 100%;
-        margin: 10px;
-    }
 }
 
 @media screen and (max-width: 300px) {
@@ -160,82 +127,3 @@ header {
         margin: 10px 0;
     }
 }
-
-/* input[type="checkbox"] {
-    appearance: none;
-    min-width: 24px;
-    min-height: 24px;
-    background-color: var(--color2);
-    box-shadow: 2px 2px var(--color5);
-    position: relative;
-}
-
-input[type="checkbox"]:checked::before {
-    content: "X";
-    min-width: 20px;
-    min-height: 20px;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-30%, -30%);
-    color: var(--color5);
-}
-
-input[type="text"] {
-    width: 100%;
-    max-width: 450px;
-    padding: 5px;
-    box-shadow:
-        inset 2px 2px var(--color5),
-        inset -2px -2px var(--color4);
-    font-size: 1rem;
-    text-align: center;
-}
-
-input[type="text"]:focus {
-    outline: none;
-}
-
-[data-js="options-label"], [data-js="options-label"] input, [data-js="tools"] input, [data-js="tools-label"] {
-    cursor: pointer;
-}
-
-[data-js="buttons-container"] div {
-    display: flex;
-    justify-content: center;
-}
-
-[data-js="buttons-container"] input {
-    width: 35%;
-    padding: .3rem;
-    border: none;
-}
-
-[data-js="buttons-container"] input:hover {
-    cursor: pointer;
-} */
-
-/* [data-js="buttons-container"] input {
-    width: 100%;
-    max-width: 450px;
-    padding: 10px;
-    letter-spacing: -1px;
-    box-shadow: 1px 4px var(--color5);
-    cursor: pointer;
-} */
-
-/* [data-js="buttons-container"] input:active {
-    transform: scale(.95);
-} */
-
-/* [data-js="findByNameAndID-wrapper"] ul li {
-    display: flex;
-}
-
-[data-js="findByNameAndID-wrapper"] input {
-    margin: 0 10px;
-}
-
-input:disabled + span, input[type="checkbox"]:disabled {
-    opacity: .5;
-} */

@@ -19,7 +19,7 @@ class ToolsManager {
         return toolInput as HTMLInputElement;
     }
 
-    public isCheckboxType(): boolean {
+    private isCheckboxType(): boolean {
         return this.getToolInput().type === 'checkbox';
     }
 
