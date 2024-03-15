@@ -13,7 +13,8 @@ catch (err) {
 }
 const interactionType = interactions.type;
 const interactionsEvents = interactions[interactions.type];
-window.addEventListener('mousemove', (event) => {
+window.addEventListener(interactionsEvents.move, (event) => {
+    event.preventDefault();
     const draggableProgramLike = DraggableProgramLike
         .getProgramsLike().find(({ isDragging }) => isDragging);
     if (!draggableProgramLike) {
@@ -22,7 +23,7 @@ window.addEventListener('mousemove', (event) => {
     const { clientX, clientY } = interactionType === 'mouse' ? event : event.touches[0];
     draggableProgramLike.updateProgramLikePosition(clientX, clientY);
     DraggableProgramLike.overlapProgramLike(draggableProgramLike);
-});
+}, { passive: false });
 const observer = new MutationObserver(([mutation]) => {
     const removedNodes = mutation.removedNodes;
     if (removedNodes.length >= 1) {

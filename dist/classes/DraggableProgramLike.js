@@ -73,7 +73,7 @@ class DraggableProgramLike {
             this.coordX = clientX;
             this.coordY = clientY;
             h.style.cursor = 'grabbing';
-        });
+        }, { passive: true });
         window.addEventListener(interactionUp, () => {
             this.isDragging = false;
             h.style.cursor = 'grab';

@@ -31,7 +31,9 @@ try {
 const interactionType: InteractionType = interactions.type;
 const interactionsEvents: InteractionEvents['mouse'] | InteractionEvents['touch'] = interactions[interactions.type];
 
-window.addEventListener('mousemove', (event: MouseEvent | TouchEvent): void => {
+window.addEventListener(interactionsEvents.move, (event: MouseEvent | TouchEvent): void => {
+
+    event.preventDefault();
 
     const draggableProgramLike: DraggableProgramLike | undefined = DraggableProgramLike
         .getProgramsLike().find(({ isDragging }) => isDragging);
@@ -44,9 +46,10 @@ window.addEventListener('mousemove', (event: MouseEvent | TouchEvent): void => {
 
     draggableProgramLike.updateProgramLikePosition(clientX, clientY);
     DraggableProgramLike.overlapProgramLike(draggableProgramLike);
-});
 
-const observer = new MutationObserver(([ mutation ]) => {
+}, { passive: false });
+
+const observer = new MutationObserver(([ mutation ]): void => {
 
     const removedNodes = mutation.removedNodes;
 
