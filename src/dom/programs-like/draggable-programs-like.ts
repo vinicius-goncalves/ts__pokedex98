@@ -33,14 +33,14 @@ const interactionsEvents: InteractionEvents['mouse'] | InteractionEvents['touch'
 
 window.addEventListener(interactionsEvents.move, (event: MouseEvent | TouchEvent): void => {
 
-    event.preventDefault();
-
     const draggableProgramLike: DraggableProgramLike | undefined = DraggableProgramLike
         .getProgramsLike().find(({ isDragging }) => isDragging);
 
     if(!draggableProgramLike) {
         return;
     }
+
+    event.preventDefault();
 
     const { clientX, clientY } = interactionType === 'mouse' ? (event as MouseEvent) : (event as TouchEvent).touches[0];
 
