@@ -1,6 +1,8 @@
 class ToolsManager {
     toolName;
+    ;
     constructor(toolName) {
+        this.toolName = toolName;
         this.toolName = toolName;
     }
     getToolInput() {

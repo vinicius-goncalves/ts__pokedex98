@@ -1,4 +1,3 @@
-
 function createSearchPokemonProgramLike(): HTMLDivElement {
 
     const programLikeSearch = document.createElement('div');

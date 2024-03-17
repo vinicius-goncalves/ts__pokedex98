@@ -1,10 +1,8 @@
 import type ToolName from '../types/Tools.js';
 
-class ToolsManager {
+class ToolsManager {;
 
-    private toolName: string;
-
-    constructor(toolName: ToolName) {
+    constructor(private toolName: ToolName) {
         this.toolName = toolName;
     }
 
