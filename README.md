@@ -18,7 +18,7 @@ A project using PokedexAPI with a window 98 like-style.
 <div>
 
   ## Introdution
-  One of my first projects, Pokedex98 was a beginner project using tools like [PokéAPI][pokeapi], that beginners usually use when learning HTTP request for the first time. Instead of building a simple project, I challenge myself by creating a Pokédex with Window 98-based themes. The project has features such as drag-and-drop popups, search Pokémons by name or ID, infinite scroll, and more.
+  One of my first projects, Pokedex98 was a beginner project using tools like [PokéAPI][pokeapi], that beginners usually use when learning HTTP request for the first time. Instead of building a simple project, I challenge myself by creating a Pokédex with Window 98-based themes. The project has features such as drag-and-drop popups, search Pokémons by name or ID, infinite scroll, and more. Initially, this project was built using JavaScript, but later I refactored using Typescript.
   
 </div>
 
@@ -27,11 +27,9 @@ A project using PokedexAPI with a window 98 like-style.
   ## Technologies used
   Those are the main technologies I used to build this project.
   
-  |  💻 languages  |  📚 libraries & frameworks |
-  | :-------------: | :-----------------------:  |
-  | ![][typescript] | ![][pokeapi-badge]               | 
-  | **-**           | **-**                      |
-  | **-**           | **-**                      |
+  |  💻 languages   |   📚 libraries & frameworks |
+  | :-------------: | :-------------------------: |
+  | ![][typescript] | ![][pokeapi-badge]          | 
   
 </div>
 
